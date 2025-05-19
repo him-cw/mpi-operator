@@ -60,23 +60,23 @@ index 3387176..34d8413 100644
  
  	// ReplicaIndexLabel represents the label key for the replica-index, e.g. 0, 1, 2.. etc
 -	ReplicaIndexLabel = "training.kubeflow.org/replica-index"
-+       ReplicaIndexLabel = "training.cw.xyz/replica-index"
++       ReplicaIndexLabel = "training.coreweave.com/replica-index"
  
  	// ReplicaTypeLabel represents the label key for the replica-type, e.g. ps, worker etc.
 -	ReplicaTypeLabel = "training.kubeflow.org/replica-type"
-+       ReplicaTypeLabel = "training.cw.xyz/replica-type"
++       ReplicaTypeLabel = "training.coreweave.com/replica-type"
  
  	// OperatorNameLabel represents the label key for the operator name, e.g. tf-operator, mpi-operator, etc.
 -	OperatorNameLabel = "training.kubeflow.org/operator-name"
-+       OperatorNameLabel = "training.cw.xyz/operator-name"
++       OperatorNameLabel = "training.coreweave.com/operator-name"
  
  	// JobNameLabel represents the label key for the job name, the value is the job name.
 -	JobNameLabel = "training.kubeflow.org/job-name"
-+       JobNameLabel = "training.cw.xyz/job-name"
++       JobNameLabel = "training.coreweave.com/job-name"
  
  	// JobRoleLabel represents the label key for the job role, e.g. master.
 -	JobRoleLabel = "training.kubeflow.org/job-role"
-+       JobRoleLabel = "training.cw.xyz/job-role"
++       JobRoleLabel = "training.coreweave.com/job-role"
  )
 diff --git a/pkg/controller/mpi_job_controller.go b/pkg/controller/mpi_job_controller.go
 index c00a98e..25046dc 100644
@@ -151,10 +151,10 @@ index a4ab42e..40777f6 100644
 -     app.kubernetes.io/name: mpi-operator
 -     kustomize.component: mpi-operator
 --  name: mpijobs.kubeflow.org
--+  name: groupjobs.cw.xyz
+-+  name: groupjobs.coreweave.com
 - spec:
 --  group: kubeflow.org
--+  group: cw.xyz
+-+  group: coreweave.com
 -   names:
 --    kind: MPIJob
 --    listKind: MPIJobList
@@ -176,7 +176,7 @@ index a4ab42e..40777f6 100644
 - 
 - // Package v2beta1 is the v2beta1 version of the API.
 --// +groupName=kubeflow.org
--+// +groupName=cw.xyz
+-+// +groupName=coreweave.com
 - package v2beta1
 -diff --git a/pkg/apis/kubeflow/v2beta1/register.go b/pkg/apis/kubeflow/v2beta1/register.go
 -index fc14b70..f9ae7bd 100644
@@ -191,7 +191,7 @@ index a4ab42e..40777f6 100644
 --	// Kind is the kind name.
 --	Kind = "MPIJob"
 -+       // GroupName is the group name use in this package.
--+       GroupName = "cw.xyz"
+-+       GroupName = "coreweave.com"
 -+       // Kind is the kind name.
 -+       Kind = "GroupJob"
 - 	// GroupVersion is the version.
@@ -222,10 +222,10 @@ index caa0651..107461c 100644
      app.kubernetes.io/name: mpi-operator
      kustomize.component: mpi-operator
 -  name: mpijobs.kubeflow.org
-+  name: groupjobs.cw.xyz
++  name: groupjobs.coreweave.com
  spec:
 -  group: kubeflow.org
-+  group: cw.xyz
++  group: coreweave.com
    names:
 -    kind: MPIJob
 -    listKind: MPIJobList
@@ -247,7 +247,7 @@ index 45eb00b..25ce134 100644
  
  // Package v2beta1 is the v2beta1 version of the API.
 -// +groupName=kubeflow.org
-+// +groupName=cw.xyz
++// +groupName=coreweave.com
  package v2beta1
 diff --git a/pkg/apis/kubeflow/v2beta1/register.go b/pkg/apis/kubeflow/v2beta1/register.go
 index fc14b70..f9ae7bd 100644
@@ -262,7 +262,7 @@ index fc14b70..f9ae7bd 100644
 -	// Kind is the kind name.
 -	Kind = "MPIJob"
 +       // GroupName is the group name use in this package.
-+       GroupName = "cw.xyz"
++       GroupName = "coreweave.com"
 +       // Kind is the kind name.
 +       Kind = "GroupJob"
  	// GroupVersion is the version.
