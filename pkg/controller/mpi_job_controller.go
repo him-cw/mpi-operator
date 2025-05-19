@@ -118,20 +118,20 @@ const (
 
 var (
 	mpiJobsCreatedCount = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "mpi_operator_jobs_created_total",
-		Help: "Counts number of MPI jobs created",
+		Name: "group_operator_jobs_created_total",
+		Help: "Counts number of Group jobs created",
 	})
 	mpiJobsSuccessCount = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "mpi_operator_jobs_successful_total",
-		Help: "Counts number of MPI jobs successful",
+		Name: "group_operator_jobs_successful_total",
+		Help: "Counts number of Group jobs successful",
 	})
 	mpiJobsFailureCount = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "mpi_operator_jobs_failed_total",
-		Help: "Counts number of MPI jobs failed",
+		Name: "group_operator_jobs_failed_total",
+		Help: "Counts number of Group jobs failed",
 	})
 	mpiJobInfoGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "mpi_operator_job_info",
-		Help: "Information about MPIJob",
+		Name: "group_operator_job_info",
+		Help: "Information about GroupJob",
 	}, []string{"launcher", "namespace"})
 
 	sshVolumeItems = []corev1.KeyToPath{

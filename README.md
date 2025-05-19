@@ -1,9 +1,10 @@
-# MPI Operator
+# Group Operator
 
-[![Build Status](https://github.com/kubeflow/mpi-operator/workflows/build/badge.svg)](https://github.com/kubeflow/mpi-operator/actions?query=event%3Apush+branch%3Amaster)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mpioperator/mpi-operator)](https://hub.docker.com/r/mpioperator/mpi-operator)
+[![CI Status](https://github.com/cwxyz/group-operator/actions/workflows/ci.yml/badge.svg)](https://github.com/cwxyz/group-operator/actions/workflows/ci.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/cwxyz/group-operator)](https://hub.docker.com/r/cwxyz/group-operator)
 
-The MPI Operator makes it easy to run allreduce-style distributed training on Kubernetes. Please check out [this blog post](https://medium.com/kubeflow/introduction-to-kubeflow-mpi-operator-and-industry-adoption-296d5f2e6edc) for an introduction to MPI Operator and its industry adoption.
+
+The Group Operator makes it easy to run allreduce-style distributed training on Kubernetes. Please check out [this blog post](https://medium.com/kubeflow/introduction-to-kubeflow-mpi-operator-and-industry-adoption-296d5f2e6edc) for an introduction to Group Operator and its industry adoption.
 
 ## Installation
 
@@ -12,18 +13,15 @@ You can deploy the operator with default settings by running the following comma
 - Latest Development Version
 
 ```shell
-kubectl apply --server-side -f https://raw.githubusercontent.com/kubeflow/mpi-operator/master/deploy/v2beta1/mpi-operator.yaml
+kubectl apply --server-side -f https://raw.githubusercontent.com/cwxyz/group-operator/main/deploy/v2beta1/group-operator.yaml
 ```
 
 - Release Version
 
 ```shell
-kubectl apply --server-side -f https://raw.githubusercontent.com/kubeflow/mpi-operator/v0.6.0/deploy/v2beta1/mpi-operator.yaml
+kubectl apply --server-side -f https://raw.githubusercontent.com/cwxyz/group-operator/v0.6.0-cw.0/deploy/v2beta1/group-operator.yaml
 ```
 
-Alternatively, follow the [getting started guide](https://www.kubeflow.org/docs/started/getting-started/) to deploy Kubeflow.
-
-An alpha version of MPI support was introduced with Kubeflow 0.2.0. You must be using a version of Kubeflow newer than 0.2.0.
 
 You can check whether the MPI Job custom resource is installed via:
 
@@ -228,15 +226,15 @@ cat examples/pi/pi-mpich.yaml
 
 | Metric name | Metric type | Description | Labels |
 | ----------- | ----------- | ----------- | ------ |
-|mpi\_operator\_jobs\_created\_total | Counter  | Counts number of MPI jobs created | |
-|mpi\_operator\_jobs\_successful\_total | Counter  | Counts number of MPI jobs successful | |
-|mpi\_operator\_jobs\_failed\_total | Counter  | Counts number of MPI jobs failed| |
-|mpi\_operator\_job\_info | Gauge | Information about MPIJob | `launcher`=&lt;launcher-pod-name&gt; <br> `namespace`=&lt;job-namespace&gt; |
+|group\_operator\_jobs\_created\_total | Counter  | Counts number of Group jobs created | |
+|group\_operator\_jobs\_successful\_total | Counter  | Counts number of Group jobs successful | |
+|group\_operator\_jobs\_failed\_total | Counter  | Counts number of Group jobs failed| |
+|group\_operator\_job\_info | Gauge | Information about GroupJob | `launcher`=&lt;launcher-pod-name&gt; <br> `namespace`=&lt;job-namespace&gt; |
 
 ### Join Metrics
 
 With [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics), one can join metrics by labels.
-For example `kube_pod_info * on(pod,namespace) group_left label_replace(mpi_operator_job_infos, "pod", "$0", "launcher", ".*")`
+For example `kube_pod_info * on(pod,namespace) group_left label_replace(group_operator_job_infos, "pod", "$0", "launcher", ".*")`
 
 ## Docker Images
 

@@ -76,8 +76,8 @@ var (
 
 var (
 	isLeader = promauto.NewGauge(prometheus.GaugeOpts{
-		Name: "mpi_operator_is_leader",
-		Help: "Is this client the leader of this mpi-operator client set?",
+		Name: "group_operator_is_leader",
+		Help: "Is this client the leader of this group-operator client set?",
 	})
 )
 

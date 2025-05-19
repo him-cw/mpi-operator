@@ -22,7 +22,7 @@ const (
 	// DefaultLauncherRestartPolicy is default RestartPolicy for Launcher Job.
 	DefaultLauncherRestartPolicy = RestartPolicyOnFailure
 	// OperatorName is the name of the operator used as value to the label common.OperatorLabelName
-	OperatorName = "mpi-operator"
+	OperatorName = "group-operator"
 )
 
 // merge from common.v1
@@ -30,17 +30,17 @@ const (
 const (
 
 	// ReplicaIndexLabel represents the label key for the replica-index, e.g. 0, 1, 2.. etc
-	ReplicaIndexLabel = "training.kubeflow.org/replica-index"
+	ReplicaIndexLabel = "training.coreweave.com/replica-index"
 
 	// ReplicaTypeLabel represents the label key for the replica-type, e.g. ps, worker etc.
-	ReplicaTypeLabel = "training.kubeflow.org/replica-type"
+	ReplicaTypeLabel = "training.coreweave.com/replica-type"
 
 	// OperatorNameLabel represents the label key for the operator name, e.g. tf-operator, mpi-operator, etc.
-	OperatorNameLabel = "training.kubeflow.org/operator-name"
+	OperatorNameLabel = "training.coreweave.com/operator-name"
 
 	// JobNameLabel represents the label key for the job name, the value is the job name.
-	JobNameLabel = "training.kubeflow.org/job-name"
+	JobNameLabel = "training.coreweave.com/job-name"
 
 	// JobRoleLabel represents the label key for the job role, e.g. master.
-	JobRoleLabel = "training.kubeflow.org/job-role"
+	JobRoleLabel = "training.coreweave.com/job-role"
 )

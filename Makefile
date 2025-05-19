@@ -87,11 +87,10 @@ generate:
 	go generate ./pkg/... ./cmd/...
 	hack/update-codegen.sh
 	$(MAKE) manifest
-	hack/python-sdk/gen-sdk.sh
 
 .PHONY: verify-generate
 verify-generate: generate
-	git --no-pager diff --exit-code manifests/base deploy sdk pkg/apis pkg/client
+       git --no-pager diff --exit-code manifests/base deploy pkg/apis pkg/client
 
 .PHONY: clean
 clean:

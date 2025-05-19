@@ -27,14 +27,14 @@ metadata:
     app.kubernetes.io/component: mpijob
     app.kubernetes.io/name: mpi-operator
     kustomize.component: mpi-operator
-  name: mpijobs.kubeflow.org
+  name: groupjobs.coreweave.com
 spec:
-  group: kubeflow.org
+  group: coreweave.com
   names:
-    kind: MPIJob
-    listKind: MPIJobList
-    plural: mpijobs
-    singular: mpijob
+    kind: GroupJob
+    listKind: GroupJobList
+    plural: groupjobs
+    singular: groupjob
   scope: Namespaced
   versions:
   - name: v2beta1
