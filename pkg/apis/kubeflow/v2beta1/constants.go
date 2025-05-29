@@ -35,7 +35,7 @@ const (
 	// ReplicaTypeLabel represents the label key for the replica-type, e.g. ps, worker etc.
 	ReplicaTypeLabel = "training.coreweave.com/replica-type"
 
-	// OperatorNameLabel represents the label key for the operator name, e.g. tf-operator, mpi-operator, etc.
+	// OperatorNameLabel represents the label key for the operator name, e.g. tf-operator, group-operator, etc.
 	OperatorNameLabel = "training.coreweave.com/operator-name"
 
 	// JobNameLabel represents the label key for the job name, the value is the job name.

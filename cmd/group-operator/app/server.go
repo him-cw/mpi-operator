@@ -44,7 +44,7 @@ import (
 	schedclientset "sigs.k8s.io/scheduler-plugins/pkg/generated/clientset/versioned"
 	volcanoclient "volcano.sh/apis/pkg/client/clientset/versioned"
 
-	"github.com/coreweave/group-operator/cmd/mpi-operator/app/options"
+	"github.com/coreweave/group-operator/cmd/group-operator/app/options"
 	mpijobclientset "github.com/coreweave/group-operator/pkg/client/clientset/versioned"
 	kubeflowscheme "github.com/coreweave/group-operator/pkg/client/clientset/versioned/scheme"
 	informers "github.com/coreweave/group-operator/pkg/client/informers/externalversions"
@@ -55,7 +55,7 @@ import (
 const (
 	apiVersion                   = "v2"
 	RecommendedKubeConfigPathEnv = "KUBECONFIG"
-	controllerName               = "mpi-operator"
+	controllerName               = "group-operator"
 )
 
 var (
@@ -151,7 +151,7 @@ func Run(opt *options.ServerOption) error {
 			&workqueue.TypedBucketRateLimiter[any]{Limiter: rate.NewLimiter(rate.Limit(opt.ControllerRateLimit), opt.ControllerBurst)},
 		)
 
-		controller, err := controllersv1.NewMPIJobController(
+		controller, err := controllersv1.NewGroupJobController(
 			kubeClient,
 			mpiJobClientSet,
 			volcanoClientSet,
@@ -162,7 +162,7 @@ func Run(opt *options.ServerOption) error {
 			kubeInformerFactory.Batch().V1().Jobs(),
 			kubeInformerFactory.Core().V1().Pods(),
 			kubeInformerFactory.Scheduling().V1().PriorityClasses(),
-			kubeflowInformerFactory.Kubeflow().V2beta1().MPIJobs(),
+			kubeflowInformerFactory.Kubeflow().V2beta1().GroupJobs(),
 			namespace, opt.GangSchedulingName,
 			workqueueRateLimiter)
 		if err != nil {
@@ -258,7 +258,7 @@ func Run(opt *options.ServerOption) error {
 				klog.Infof("New leader has been elected: %s", identity)
 			},
 		},
-		Name:     "mpi-operator",
+		Name:     "group-operator",
 		WatchDog: electionChecker,
 	})
 
@@ -277,7 +277,7 @@ func createClientSets(
 	error,
 ) {
 
-	kubeClientSet, err := kubeclientset.NewForConfig(restclientset.AddUserAgent(config, "mpi-operator"))
+	kubeClientSet, err := kubeclientset.NewForConfig(restclientset.AddUserAgent(config, "group-operator"))
 	if err != nil {
 		return nil, nil, nil, nil, nil, err
 	}
@@ -310,7 +310,7 @@ func createClientSets(
 }
 
 func checkCRDExists(clientset mpijobclientset.Interface, namespace string) bool {
-	_, err := clientset.KubeflowV2beta1().MPIJobs(namespace).List(context.TODO(), metav1.ListOptions{})
+	_, err := clientset.KubeflowV2beta1().GroupJobs(namespace).List(context.TODO(), metav1.ListOptions{})
 
 	if err != nil {
 		klog.Error(err)

@@ -21,7 +21,7 @@ set -o pipefail
 cd "$(dirname "$0")/.."
 KUSTOMIZE=${1:-"bin/kustomize"}
 
-MANIFEST=deploy/v2beta1/mpi-operator.yaml
+MANIFEST=deploy/v2beta1/group-operator.yaml
 
 cat <<EOF > "${MANIFEST}"
 # --------------------------------------------------

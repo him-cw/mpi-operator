@@ -38,10 +38,10 @@ import (
 	"github.com/coreweave/group-operator/test/util"
 )
 
-var _ = ginkgo.Describe("MPIJob", func() {
+var _ = ginkgo.Describe("GroupJob", func() {
 	var (
 		namespace string
-		mpiJob    *kubeflow.MPIJob
+		mpiJob    *kubeflow.GroupJob
 	)
 
 	ginkgo.BeforeEach(func() {
@@ -66,12 +66,12 @@ var _ = ginkgo.Describe("MPIJob", func() {
 	})
 
 	ginkgo.BeforeEach(func() {
-		mpiJob = &kubeflow.MPIJob{
+		mpiJob = &kubeflow.GroupJob{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      "pi",
 				Namespace: namespace,
 			},
-			Spec: kubeflow.MPIJobSpec{
+			Spec: kubeflow.GroupJobSpec{
 				MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 					kubeflow.MPIReplicaTypeLauncher: {
 						RestartPolicy: kubeflow.RestartPolicyOnFailure,
@@ -86,7 +86,7 @@ var _ = ginkgo.Describe("MPIJob", func() {
 
 	ginkgo.Context("with OpenMPI implementation", func() {
 		ginkgo.BeforeEach(func() {
-			createMPIJobWithOpenMPI(mpiJob)
+			createGroupJobWithOpenMPI(mpiJob)
 		})
 
 		ginkgo.When("has malformed command", func() {
@@ -118,7 +118,7 @@ var _ = ginkgo.Describe("MPIJob", func() {
 					ctx := context.Background()
 					mpiJob := createJob(ctx, mpiJob)
 
-					ginkgo.By("verifying there are no pods (neither launcher nor pods) running for the suspended MPIJob")
+					ginkgo.By("verifying there are no pods (neither launcher nor pods) running for the suspended GroupJob")
 					pods, err := k8sClient.CoreV1().Pods(mpiJob.Namespace).List(ctx, metav1.ListOptions{})
 					gomega.Expect(err).ToNot(gomega.HaveOccurred())
 					gomega.Expect(pods.Items).To(gomega.HaveLen(0))
@@ -174,7 +174,7 @@ var _ = ginkgo.Describe("MPIJob", func() {
 				mpiJob = createJob(ctx, mpiJob)
 
 				time.Sleep(util.SleepDurationControllerSyncDelay)
-				mpiJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				mpiJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).To(gomega.BeNil())
 
 				// job should be created, but status should not be updated neither for create nor for any other status
@@ -196,7 +196,7 @@ var _ = ginkgo.Describe("MPIJob", func() {
 				gomega.Expect(secret).To(gomega.BeNil())
 			})
 
-			ginkgo.It("should succeed when explicitly managed by mpi-operator", func() {
+			ginkgo.It("should succeed when explicitly managed by group-operator", func() {
 				mpiJob.Spec.RunPolicy.ManagedBy = ptr.To(kubeflow.KubeflowJobController)
 				mpiJob := createJobAndWaitForCompletion(mpiJob)
 				expectConditionToBeTrue(mpiJob, kubeflow.JobSucceeded)
@@ -351,7 +351,7 @@ var _ = ginkgo.Describe("MPIJob", func() {
 		ginkgo.BeforeEach(func() {
 			// Set up the scheduler-plugins.
 			setUpSchedulerPlugins()
-			// Set up the mpi-operator so that the scheduler-plugins is used as gang-scheduler.
+			// Set up the group-operator so that the scheduler-plugins is used as gang-scheduler.
 			setupMPIOperator(ctx, mpiJob, enableGangSchedulingFlag, unschedulableResources)
 		})
 
@@ -380,13 +380,13 @@ var _ = ginkgo.Describe("MPIJob", func() {
 		})
 
 		ginkgo.It("should create pending pods", func() {
-			ginkgo.By("Creating MPIJob")
+			ginkgo.By("Creating GroupJob")
 			mpiJob := createJob(ctx, mpiJob)
 			var jobCondition *kubeflow.JobCondition
 			gomega.Eventually(func() *kubeflow.JobCondition {
-				updatedMPIJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				updatedGroupJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).Should(gomega.Succeed())
-				jobCondition = getJobCondition(updatedMPIJob, kubeflow.JobCreated)
+				jobCondition = getJobCondition(updatedGroupJob, kubeflow.JobCreated)
 				return jobCondition
 			}, foreverTimeout, waitInterval).ShouldNot(gomega.BeNil())
 			gomega.Expect(jobCondition.Status).To(gomega.Equal(corev1.ConditionTrue))
@@ -410,18 +410,18 @@ var _ = ginkgo.Describe("MPIJob", func() {
 			gomega.Expect(pg.Spec.MinResources.Cpu().String()).Should(gomega.BeComparableTo(unschedulableResources.Cpu().String()))
 			gomega.Expect(pg.Spec.MinResources.Memory().String()).Should(gomega.BeComparableTo(unschedulableResources.Memory().String()))
 
-			ginkgo.By("Updating MPIJob with schedulable schedulingPolicies")
+			ginkgo.By("Updating GroupJob with schedulable schedulingPolicies")
 			gomega.Eventually(func() error {
-				updatedJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				updatedJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).Should(gomega.Succeed())
 				updatedJob.Spec.RunPolicy.SchedulingPolicy.MinResources = nil
-				_, err = mpiClient.KubeflowV2beta1().MPIJobs(updatedJob.Namespace).Update(ctx, updatedJob, metav1.UpdateOptions{})
+				_, err = mpiClient.KubeflowV2beta1().GroupJobs(updatedJob.Namespace).Update(ctx, updatedJob, metav1.UpdateOptions{})
 				return err
 			}, foreverTimeout, waitInterval).Should(gomega.BeNil())
 
-			ginkgo.By("Waiting for MPIJob to running")
+			ginkgo.By("Waiting for GroupJob to running")
 			gomega.Eventually(func() corev1.ConditionStatus {
-				updatedJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				updatedJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).Should(gomega.Succeed())
 				cond := getJobCondition(updatedJob, kubeflow.JobRunning)
 				if cond == nil {
@@ -446,7 +446,7 @@ var _ = ginkgo.Describe("MPIJob", func() {
 		ginkgo.BeforeEach(func() {
 			// Set up the volcano-scheduler.
 			setupVolcanoScheduler()
-			// Set up the mpi-operator so that the volcano scheduler is used as gang-scheduler.
+			// Set up the group-operator so that the volcano scheduler is used as gang-scheduler.
 			setupMPIOperator(ctx, mpiJob, enableGangSchedulingFlag, unschedulableResources)
 		})
 
@@ -476,13 +476,13 @@ var _ = ginkgo.Describe("MPIJob", func() {
 		})
 
 		ginkgo.It("should create pending pods", func() {
-			ginkgo.By("Creating MPIJob")
+			ginkgo.By("Creating GroupJob")
 			mpiJob := createJob(ctx, mpiJob)
 			var jobCondition *kubeflow.JobCondition
 			gomega.Eventually(func() *kubeflow.JobCondition {
-				updatedMPIJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				updatedGroupJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).Should(gomega.Succeed())
-				jobCondition = getJobCondition(updatedMPIJob, kubeflow.JobCreated)
+				jobCondition = getJobCondition(updatedGroupJob, kubeflow.JobCreated)
 				return jobCondition
 			}, foreverTimeout, waitInterval).ShouldNot(gomega.BeNil())
 			gomega.Expect(jobCondition.Status).To(gomega.Equal(corev1.ConditionTrue))
@@ -506,18 +506,18 @@ var _ = ginkgo.Describe("MPIJob", func() {
 			gomega.Expect(pg.Spec.MinResources.Cpu().String()).Should(gomega.BeComparableTo(unschedulableResources.Cpu().String()))
 			gomega.Expect(pg.Spec.MinResources.Memory().String()).Should(gomega.BeComparableTo(unschedulableResources.Memory().String()))
 
-			ginkgo.By("Updating MPIJob with schedulable schedulingPolicies")
+			ginkgo.By("Updating GroupJob with schedulable schedulingPolicies")
 			gomega.Eventually(func() error {
-				updatedJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				updatedJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).Should(gomega.Succeed())
 				updatedJob.Spec.RunPolicy.SchedulingPolicy.MinResources = nil
-				_, err = mpiClient.KubeflowV2beta1().MPIJobs(updatedJob.Namespace).Update(ctx, updatedJob, metav1.UpdateOptions{})
+				_, err = mpiClient.KubeflowV2beta1().GroupJobs(updatedJob.Namespace).Update(ctx, updatedJob, metav1.UpdateOptions{})
 				return err
 			}, foreverTimeout, waitInterval).Should(gomega.BeNil())
 
-			ginkgo.By("Waiting for MPIJob to running")
+			ginkgo.By("Waiting for GroupJob to running")
 			gomega.Eventually(func() corev1.ConditionStatus {
-				updatedJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+				updatedJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 				gomega.Expect(err).Should(gomega.Succeed())
 				cond := getJobCondition(updatedJob, kubeflow.JobRunning)
 				if cond == nil {
@@ -529,33 +529,33 @@ var _ = ginkgo.Describe("MPIJob", func() {
 	})
 })
 
-func resumeJob(ctx context.Context, mpiJob *kubeflow.MPIJob) *kubeflow.MPIJob {
+func resumeJob(ctx context.Context, mpiJob *kubeflow.GroupJob) *kubeflow.GroupJob {
 	mpiJob.Spec.RunPolicy.Suspend = ptr.To(false)
-	ginkgo.By("Resuming MPIJob")
-	mpiJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Update(ctx, mpiJob, metav1.UpdateOptions{})
+	ginkgo.By("Resuming GroupJob")
+	mpiJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Update(ctx, mpiJob, metav1.UpdateOptions{})
 	gomega.Expect(err).ToNot(gomega.HaveOccurred())
 	return mpiJob
 }
 
-func createJobAndWaitForCompletion(mpiJob *kubeflow.MPIJob) *kubeflow.MPIJob {
+func createJobAndWaitForCompletion(mpiJob *kubeflow.GroupJob) *kubeflow.GroupJob {
 	ctx := context.Background()
 	mpiJob = createJob(ctx, mpiJob)
 	return waitForCompletion(ctx, mpiJob)
 }
 
-func createJob(ctx context.Context, mpiJob *kubeflow.MPIJob) *kubeflow.MPIJob {
-	ginkgo.By("Creating MPIJob")
-	mpiJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Create(ctx, mpiJob, metav1.CreateOptions{})
+func createJob(ctx context.Context, mpiJob *kubeflow.GroupJob) *kubeflow.GroupJob {
+	ginkgo.By("Creating GroupJob")
+	mpiJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Create(ctx, mpiJob, metav1.CreateOptions{})
 	gomega.Expect(err).ToNot(gomega.HaveOccurred())
 	return mpiJob
 }
 
-func waitForCompletion(ctx context.Context, mpiJob *kubeflow.MPIJob) *kubeflow.MPIJob {
+func waitForCompletion(ctx context.Context, mpiJob *kubeflow.GroupJob) *kubeflow.GroupJob {
 	var err error
 
-	ginkgo.By("Waiting for MPIJob to finish")
+	ginkgo.By("Waiting for GroupJob to finish")
 	err = wait.PollUntilContextTimeout(ctx, waitInterval, foreverTimeout, false, func(ctx context.Context) (bool, error) {
-		updatedJob, err := mpiClient.KubeflowV2beta1().MPIJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
+		updatedJob, err := mpiClient.KubeflowV2beta1().GroupJobs(mpiJob.Namespace).Get(ctx, mpiJob.Name, metav1.GetOptions{})
 		if err != nil {
 			return false, err
 		}
@@ -572,7 +572,7 @@ func waitForCompletion(ctx context.Context, mpiJob *kubeflow.MPIJob) *kubeflow.M
 	return mpiJob
 }
 
-func getLauncherPods(ctx context.Context, mpiJob *kubeflow.MPIJob) (*corev1.PodList, error) {
+func getLauncherPods(ctx context.Context, mpiJob *kubeflow.GroupJob) (*corev1.PodList, error) {
 	selector := metav1.LabelSelector{
 		MatchLabels: map[string]string{
 			kubeflow.OperatorNameLabel: kubeflow.OperatorName,
@@ -589,7 +589,7 @@ func getLauncherPods(ctx context.Context, mpiJob *kubeflow.MPIJob) (*corev1.PodL
 	return launcherPods, nil
 }
 
-func getWorkerPods(ctx context.Context, mpiJob *kubeflow.MPIJob) (*corev1.PodList, error) {
+func getWorkerPods(ctx context.Context, mpiJob *kubeflow.GroupJob) (*corev1.PodList, error) {
 	selector := metav1.LabelSelector{
 		MatchLabels: map[string]string{
 			kubeflow.OperatorNameLabel: kubeflow.OperatorName,
@@ -606,7 +606,7 @@ func getWorkerPods(ctx context.Context, mpiJob *kubeflow.MPIJob) (*corev1.PodLis
 	return workerPods, nil
 }
 
-func getSecretsForJob(ctx context.Context, mpiJob *kubeflow.MPIJob) (*corev1.Secret, error) {
+func getSecretsForJob(ctx context.Context, mpiJob *kubeflow.GroupJob) (*corev1.Secret, error) {
 	result, err := k8sClient.CoreV1().Secrets(mpiJob.Namespace).List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
@@ -619,7 +619,7 @@ func getSecretsForJob(ctx context.Context, mpiJob *kubeflow.MPIJob) (*corev1.Sec
 	return nil, nil
 }
 
-func debugJob(ctx context.Context, mpiJob *kubeflow.MPIJob) error {
+func debugJob(ctx context.Context, mpiJob *kubeflow.GroupJob) error {
 	launcherPods, err := getLauncherPods(ctx, mpiJob)
 	if err != nil {
 		return err
@@ -666,13 +666,13 @@ func podLogs(ctx context.Context, p *corev1.Pod) error {
 	return nil
 }
 
-func expectConditionToBeTrue(mpiJob *kubeflow.MPIJob, condType kubeflow.JobConditionType) {
+func expectConditionToBeTrue(mpiJob *kubeflow.GroupJob, condType kubeflow.JobConditionType) {
 	condition := getJobCondition(mpiJob, condType)
 	gomega.Expect(condition).ToNot(gomega.BeNil())
 	gomega.Expect(condition.Status).To(gomega.Equal(corev1.ConditionTrue))
 }
 
-func getJobCondition(mpiJob *kubeflow.MPIJob, condType kubeflow.JobConditionType) *kubeflow.JobCondition {
+func getJobCondition(mpiJob *kubeflow.GroupJob, condType kubeflow.JobConditionType) *kubeflow.JobCondition {
 	for _, cond := range mpiJob.Status.Conditions {
 		if cond.Type == condType {
 			return &cond
@@ -681,7 +681,7 @@ func getJobCondition(mpiJob *kubeflow.MPIJob, condType kubeflow.JobConditionType
 	return nil
 }
 
-func getLauncherJob(ctx context.Context, mpiJob *kubeflow.MPIJob) (*batchv1.Job, error) {
+func getLauncherJob(ctx context.Context, mpiJob *kubeflow.GroupJob) (*batchv1.Job, error) {
 	result, err := k8sClient.BatchV1().Jobs(mpiJob.Namespace).List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, err
@@ -694,7 +694,7 @@ func getLauncherJob(ctx context.Context, mpiJob *kubeflow.MPIJob) (*batchv1.Job,
 	return nil, nil
 }
 
-func createMPIJobWithOpenMPI(mpiJob *kubeflow.MPIJob) {
+func createGroupJobWithOpenMPI(mpiJob *kubeflow.GroupJob) {
 	mpiJob.Spec.MPIReplicaSpecs[kubeflow.MPIReplicaTypeLauncher].Template.Spec.Containers = []corev1.Container{
 		{
 			Name:            "launcher",
@@ -752,7 +752,7 @@ func cleanUpVolcanoScheduler() {
 }
 
 // setupMPIOperator scales down and scales up the MPIOperator replication so that set up gang-scheduler takes effect
-func setupMPIOperator(ctx context.Context, mpiJob *kubeflow.MPIJob, enableGangSchedulingFlag string, unschedulableResources *corev1.ResourceList) {
+func setupMPIOperator(ctx context.Context, mpiJob *kubeflow.GroupJob, enableGangSchedulingFlag string, unschedulableResources *corev1.ResourceList) {
 	ginkgo.By("Scale-In the deployment to 0")
 	operator, err := k8sClient.AppsV1().Deployments(mpiOperator).Get(ctx, mpiOperator, metav1.GetOptions{})
 	gomega.Expect(err).Should(gomega.Succeed())
@@ -781,6 +781,6 @@ func setupMPIOperator(ctx context.Context, mpiJob *kubeflow.MPIJob, enableGangSc
 		gomega.Expect(err).Should(gomega.Succeed())
 		return isNotZero
 	}, foreverTimeout, waitInterval).Should(gomega.BeTrue())
-	createMPIJobWithOpenMPI(mpiJob)
+	createGroupJobWithOpenMPI(mpiJob)
 	mpiJob.Spec.RunPolicy.SchedulingPolicy = &kubeflow.SchedulingPolicy{MinResources: unschedulableResources}
 }

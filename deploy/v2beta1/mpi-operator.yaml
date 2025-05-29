@@ -8175,12 +8175,12 @@ spec:
                     type: string
                   managedBy:
                     description: |-
-                      ManagedBy is used to indicate the controller or entity that manages a MPIJob.
+                      ManagedBy is used to indicate the controller or entity that manages a GroupJob.
                       The value must be either empty, 'kubeflow.org/group-operator' or
                       'kueue.x-k8s.io/multikueue'.
-                      The group-operator reconciles a MPIJob which doesn't have this
+                      The group-operator reconciles a GroupJob which doesn't have this
                       field at all or the field value is the reserved string
-                      'kubeflow.org/group-operator', but delegates reconciling the MPIJob
+                      'kubeflow.org/group-operator', but delegates reconciling the GroupJob
                       with 'kueue.x-k8s.io/multikueue' to the Kueue.
                       The field is immutable.
                     type: string
@@ -8238,13 +8238,13 @@ spec:
                   suspend:
                     default: false
                     description: |-
-                      suspend specifies whether the MPIJob controller should create Pods or not.
-                      If a MPIJob is created with suspend set to true, no Pods are created by
-                      the MPIJob controller. If a MPIJob is suspended after creation (i.e. the
-                      flag goes from false to true), the MPIJob controller will delete all
-                      active Pods and PodGroups associated with this MPIJob. Also, it will suspend the
+                      suspend specifies whether the GroupJob controller should create Pods or not.
+                      If a GroupJob is created with suspend set to true, no Pods are created by
+                      the GroupJob controller. If a GroupJob is suspended after creation (i.e. the
+                      flag goes from false to true), the GroupJob controller will delete all
+                      active Pods and PodGroups associated with this GroupJob. Also, it will suspend the
                       Launcher Job. Users must design their workload to gracefully handle this.
-                      Suspending a Job will reset the StartTime field of the MPIJob.
+                      Suspending a Job will reset the StartTime field of the GroupJob.
 
                       Defaults to false.
                     type: boolean
@@ -8433,7 +8433,7 @@ metadata:
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-mpijobs-admin: "true"
+      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-groupjobs-admin: "true"
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -8443,7 +8443,7 @@ metadata:
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
-  name: kubeflow-mpijobs-admin
+  name: kubeflow-groupjobs-admin
 rules: []
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -8455,14 +8455,14 @@ metadata:
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
-    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-mpijobs-admin: "true"
-  name: kubeflow-mpijobs-edit
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-groupjobs-admin: "true"
+  name: kubeflow-groupjobs-edit
 rules:
 - apiGroups:
   - kubeflow.org
   resources:
-  - mpijobs
-  - mpijobs/status
+  - groupjobs
+  - groupjobs/status
   verbs:
   - get
   - list
@@ -8482,13 +8482,13 @@ metadata:
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
-  name: kubeflow-mpijobs-view
+  name: kubeflow-groupjobs-view
 rules:
 - apiGroups:
   - kubeflow.org
   resources:
-  - mpijobs
-  - mpijobs/status
+  - groupjobs
+  - groupjobs/status
   verbs:
   - get
   - list
@@ -8567,9 +8567,9 @@ rules:
 - apiGroups:
   - kubeflow.org
   resources:
-  - mpijobs
-  - mpijobs/finalizers
-  - mpijobs/status
+  - groupjobs
+  - groupjobs/finalizers
+  - groupjobs/status
   verbs:
   - '*'
 - apiGroups:

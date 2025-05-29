@@ -34,10 +34,10 @@ func ForKind(kind schema.GroupVersionKind) interface{} {
 		return &kubeflowv2beta1.JobConditionApplyConfiguration{}
 	case v2beta1.SchemeGroupVersion.WithKind("JobStatus"):
 		return &kubeflowv2beta1.JobStatusApplyConfiguration{}
-	case v2beta1.SchemeGroupVersion.WithKind("MPIJob"):
-		return &kubeflowv2beta1.MPIJobApplyConfiguration{}
-	case v2beta1.SchemeGroupVersion.WithKind("MPIJobSpec"):
-		return &kubeflowv2beta1.MPIJobSpecApplyConfiguration{}
+	case v2beta1.SchemeGroupVersion.WithKind("GroupJob"):
+		return &kubeflowv2beta1.GroupJobApplyConfiguration{}
+	case v2beta1.SchemeGroupVersion.WithKind("GroupJobSpec"):
+		return &kubeflowv2beta1.GroupJobSpecApplyConfiguration{}
 	case v2beta1.SchemeGroupVersion.WithKind("ReplicaSpec"):
 		return &kubeflowv2beta1.ReplicaSpecApplyConfiguration{}
 	case v2beta1.SchemeGroupVersion.WithKind("ReplicaStatus"):

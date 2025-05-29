@@ -24,20 +24,20 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 
-type MPIJob struct {
+type GroupJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              MPIJobSpec `json:"spec,omitempty"`
-	Status            JobStatus  `json:"status,omitempty"`
+	Spec              GroupJobSpec `json:"spec,omitempty"`
+	Status            JobStatus    `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:object:root=true
 
-type MPIJobList struct {
+type GroupJobList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
-	Items           []MPIJob `json:"items"`
+	Items           []GroupJob `json:"items"`
 }
 
 // CleanPodPolicy describes how to deal with pods when the job is finished.
@@ -95,7 +95,7 @@ type SchedulingPolicy struct {
 
 const (
 	// KubeflowJobController represents the value of the default job controller
-	KubeflowJobController = "kubeflow.org/mpi-operator"
+	KubeflowJobController = "kubeflow.org/group-operator"
 
 	// MultiKueueController represents the vaue of the MultiKueue controller
 	MultiKueueController = "kueue.x-k8s.io/multikueue"
@@ -128,24 +128,24 @@ type RunPolicy struct {
 	// +optional
 	SchedulingPolicy *SchedulingPolicy `json:"schedulingPolicy,omitempty"`
 
-	// suspend specifies whether the MPIJob controller should create Pods or not.
-	// If a MPIJob is created with suspend set to true, no Pods are created by
-	// the MPIJob controller. If a MPIJob is suspended after creation (i.e. the
-	// flag goes from false to true), the MPIJob controller will delete all
-	// active Pods and PodGroups associated with this MPIJob. Also, it will suspend the
+	// suspend specifies whether the GroupJob controller should create Pods or not.
+	// If a GroupJob is created with suspend set to true, no Pods are created by
+	// the GroupJob controller. If a GroupJob is suspended after creation (i.e. the
+	// flag goes from false to true), the GroupJob controller will delete all
+	// active Pods and PodGroups associated with this GroupJob. Also, it will suspend the
 	// Launcher Job. Users must design their workload to gracefully handle this.
-	// Suspending a Job will reset the StartTime field of the MPIJob.
+	// Suspending a Job will reset the StartTime field of the GroupJob.
 	//
 	// Defaults to false.
 	// +kubebuilder:default:=false
 	Suspend *bool `json:"suspend,omitempty"`
 
-	// ManagedBy is used to indicate the controller or entity that manages a MPIJob.
-	// The value must be either empty, 'kubeflow.org/mpi-operator' or
+	// ManagedBy is used to indicate the controller or entity that manages a GroupJob.
+	// The value must be either empty, 'kubeflow.org/group-operator' or
 	// 'kueue.x-k8s.io/multikueue'.
-	// The mpi-operator reconciles a MPIJob which doesn't have this
+	// The group-operator reconciles a GroupJob which doesn't have this
 	// field at all or the field value is the reserved string
-	// 'kubeflow.org/mpi-operator', but delegates reconciling the MPIJob
+	// 'kubeflow.org/group-operator', but delegates reconciling the GroupJob
 	// with 'kueue.x-k8s.io/multikueue' to the Kueue.
 	// The field is immutable.
 	// +optional
@@ -165,7 +165,7 @@ const (
 	LauncherCreationPolicyWaitForWorkersReady LauncherCreationPolicy = "WaitForWorkersReady"
 )
 
-type MPIJobSpec struct {
+type GroupJobSpec struct {
 
 	// Specifies the number of slots per worker used in hostfile.
 	// Defaults to 1.

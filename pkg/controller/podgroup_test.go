@@ -47,19 +47,19 @@ var (
 
 func TestNewPodGroup(t *testing.T) {
 	testCases := map[string]struct {
-		mpiJob        *kubeflow.MPIJob
+		mpiJob        *kubeflow.GroupJob
 		wantSchedPG   *schedv1alpha1.PodGroup
 		wantVolcanoPG *volcanov1beta1.PodGroup
 	}{
 		"all schedulingPolicy fields are set": {
-			mpiJob: &kubeflow.MPIJob{
+			mpiJob: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 					Annotations: map[string]string{
 						volcanov1beta1.QueueNameAnnotationKey: "project-x",
 					},
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					RunPolicy: kubeflow.RunPolicy{
 						SchedulingPolicy: &kubeflow.SchedulingPolicy{
 							MinAvailable:           ptr.To[int32](2),
@@ -134,14 +134,14 @@ func TestNewPodGroup(t *testing.T) {
 			},
 		},
 		"schedulingPolicy is nil": {
-			mpiJob: &kubeflow.MPIJob{
+			mpiJob: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 					Annotations: map[string]string{
 						volcanov1beta1.QueueNameAnnotationKey: "project-x",
 					},
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),
@@ -214,14 +214,14 @@ func TestNewPodGroup(t *testing.T) {
 			},
 		},
 		"no worker no MinResources": {
-			mpiJob: &kubeflow.MPIJob{
+			mpiJob: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 					Annotations: map[string]string{
 						volcanov1beta1.QueueNameAnnotationKey: "project-x",
 					},
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					RunLauncherAsWorker: ptr.To[bool](true),
 					RunPolicy: kubeflow.RunPolicy{
 						SchedulingPolicy: &kubeflow.SchedulingPolicy{
@@ -440,17 +440,17 @@ func TestDecoratePodTemplateSpec(t *testing.T) {
 
 func TestCalculatePGMinResources(t *testing.T) {
 	volcanoTests := map[string]struct {
-		job             *kubeflow.MPIJob
+		job             *kubeflow.GroupJob
 		priorityClasses []*schedulingv1.PriorityClass
 		minMember       int32
 		want            *corev1.ResourceList
 	}{
 		"minResources is not empty": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					RunPolicy: kubeflow.RunPolicy{
 						SchedulingPolicy: &kubeflow.SchedulingPolicy{
 							MinResources: minResources,
@@ -461,21 +461,21 @@ func TestCalculatePGMinResources(t *testing.T) {
 			want: minResources,
 		},
 		"schedulingPolicy is nil": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{},
+				Spec: kubeflow.GroupJobSpec{},
 			},
 			want: nil,
 		},
 		"without priorityClass": {
 			minMember: 3,
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),
@@ -521,11 +521,11 @@ func TestCalculatePGMinResources(t *testing.T) {
 		},
 		"without worker without priorityClass": {
 			minMember: 1,
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),
@@ -571,17 +571,17 @@ func TestCalculatePGMinResources(t *testing.T) {
 	}
 
 	schedTests := map[string]struct {
-		job             *kubeflow.MPIJob
+		job             *kubeflow.GroupJob
 		minMember       *int32
 		priorityClasses []*schedulingv1.PriorityClass
 		want            *corev1.ResourceList
 	}{
 		"schedulingPolicy.minResources isn't empty": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					RunPolicy: kubeflow.RunPolicy{
 						SchedulingPolicy: &kubeflow.SchedulingPolicy{
 							MinResources: minResources,
@@ -592,7 +592,7 @@ func TestCalculatePGMinResources(t *testing.T) {
 			want: minResources,
 		},
 		"schedulingPolicy.minMember is 0": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
@@ -601,11 +601,11 @@ func TestCalculatePGMinResources(t *testing.T) {
 			want:      nil,
 		},
 		"without priorityClass": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),
@@ -659,11 +659,11 @@ func TestCalculatePGMinResources(t *testing.T) {
 		},
 		"with non-existence priorityClass": {
 			minMember: ptr.To[int32](2),
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),
@@ -725,11 +725,11 @@ func TestCalculatePGMinResources(t *testing.T) {
 				},
 			},
 			minMember: ptr.To[int32](2),
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),
@@ -868,15 +868,15 @@ func TestAddResources(t *testing.T) {
 
 func TestCalculateMinAvailable(t *testing.T) {
 	tests := map[string]struct {
-		job  *kubeflow.MPIJob
+		job  *kubeflow.GroupJob
 		want int32
 	}{
 		"minAvailable isn't empty": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					RunPolicy: kubeflow.RunPolicy{
 						SchedulingPolicy: &kubeflow.SchedulingPolicy{
 							MinAvailable: ptr.To[int32](2),
@@ -895,11 +895,11 @@ func TestCalculateMinAvailable(t *testing.T) {
 			want: 2,
 		},
 		"minAvailable is empty": {
-			job: &kubeflow.MPIJob{
+			job: &kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "test",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					MPIReplicaSpecs: map[kubeflow.MPIReplicaType]*kubeflow.ReplicaSpec{
 						kubeflow.MPIReplicaTypeLauncher: {
 							Replicas: ptr.To[int32](1),

@@ -46,13 +46,13 @@ var (
 		string(kubeflow.KubeflowJobController))
 )
 
-func ValidateMPIJob(job *kubeflow.MPIJob) field.ErrorList {
-	errs := validateMPIJobName(job)
-	errs = append(errs, validateMPIJobSpec(&job.Spec, field.NewPath("spec"))...)
+func ValidateGroupJob(job *kubeflow.GroupJob) field.ErrorList {
+	errs := validateGroupJobName(job)
+	errs = append(errs, validateGroupJobSpec(&job.Spec, field.NewPath("spec"))...)
 	return errs
 }
 
-func validateMPIJobName(job *kubeflow.MPIJob) field.ErrorList {
+func validateGroupJobName(job *kubeflow.GroupJob) field.ErrorList {
 	var allErrs field.ErrorList
 	var replicas int32 = 1
 	if workerSpec := job.Spec.MPIReplicaSpecs[kubeflow.MPIReplicaTypeWorker]; workerSpec != nil {
@@ -67,7 +67,7 @@ func validateMPIJobName(job *kubeflow.MPIJob) field.ErrorList {
 	return allErrs
 }
 
-func validateMPIJobSpec(spec *kubeflow.MPIJobSpec, path *field.Path) field.ErrorList {
+func validateGroupJobSpec(spec *kubeflow.GroupJobSpec, path *field.Path) field.ErrorList {
 	errs := validateMPIReplicaSpecs(spec.MPIReplicaSpecs, path.Child("mpiReplicaSpecs"))
 	if spec.SlotsPerWorker == nil {
 		errs = append(errs, field.Required(path.Child("slotsPerWorker"), "must have number of slots per worker"))

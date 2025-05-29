@@ -28,44 +28,44 @@ import (
 	gentype "k8s.io/client-go/gentype"
 )
 
-// MPIJobsGetter has a method to return a MPIJobInterface.
+// GroupJobsGetter has a method to return a GroupJobInterface.
 // A group's client should implement this interface.
-type MPIJobsGetter interface {
-	MPIJobs(namespace string) MPIJobInterface
+type GroupJobsGetter interface {
+	GroupJobs(namespace string) GroupJobInterface
 }
 
-// MPIJobInterface has methods to work with MPIJob resources.
-type MPIJobInterface interface {
-	Create(ctx context.Context, mPIJob *v2beta1.MPIJob, opts v1.CreateOptions) (*v2beta1.MPIJob, error)
-	Update(ctx context.Context, mPIJob *v2beta1.MPIJob, opts v1.UpdateOptions) (*v2beta1.MPIJob, error)
+// GroupJobInterface has methods to work with GroupJob resources.
+type GroupJobInterface interface {
+	Create(ctx context.Context, mPIJob *v2beta1.GroupJob, opts v1.CreateOptions) (*v2beta1.GroupJob, error)
+	Update(ctx context.Context, mPIJob *v2beta1.GroupJob, opts v1.UpdateOptions) (*v2beta1.GroupJob, error)
 	// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-	UpdateStatus(ctx context.Context, mPIJob *v2beta1.MPIJob, opts v1.UpdateOptions) (*v2beta1.MPIJob, error)
+	UpdateStatus(ctx context.Context, mPIJob *v2beta1.GroupJob, opts v1.UpdateOptions) (*v2beta1.GroupJob, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v2beta1.MPIJob, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v2beta1.MPIJobList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*v2beta1.GroupJob, error)
+	List(ctx context.Context, opts v1.ListOptions) (*v2beta1.GroupJobList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v2beta1.MPIJob, err error)
-	Apply(ctx context.Context, mPIJob *kubeflowv2beta1.MPIJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.MPIJob, err error)
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v2beta1.GroupJob, err error)
+	Apply(ctx context.Context, mPIJob *kubeflowv2beta1.GroupJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.GroupJob, err error)
 	// Add a +genclient:noStatus comment above the type to avoid generating ApplyStatus().
-	ApplyStatus(ctx context.Context, mPIJob *kubeflowv2beta1.MPIJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.MPIJob, err error)
-	MPIJobExpansion
+	ApplyStatus(ctx context.Context, mPIJob *kubeflowv2beta1.GroupJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.GroupJob, err error)
+	GroupJobExpansion
 }
 
-// mPIJobs implements MPIJobInterface
+// mPIJobs implements GroupJobInterface
 type mPIJobs struct {
-	*gentype.ClientWithListAndApply[*v2beta1.MPIJob, *v2beta1.MPIJobList, *kubeflowv2beta1.MPIJobApplyConfiguration]
+	*gentype.ClientWithListAndApply[*v2beta1.GroupJob, *v2beta1.GroupJobList, *kubeflowv2beta1.GroupJobApplyConfiguration]
 }
 
-// newMPIJobs returns a MPIJobs
-func newMPIJobs(c *KubeflowV2beta1Client, namespace string) *mPIJobs {
+// newGroupJobs returns a GroupJobs
+func newGroupJobs(c *KubeflowV2beta1Client, namespace string) *mPIJobs {
 	return &mPIJobs{
-		gentype.NewClientWithListAndApply[*v2beta1.MPIJob, *v2beta1.MPIJobList, *kubeflowv2beta1.MPIJobApplyConfiguration](
-			"mpijobs",
+		gentype.NewClientWithListAndApply[*v2beta1.GroupJob, *v2beta1.GroupJobList, *kubeflowv2beta1.GroupJobApplyConfiguration](
+			"groupjobs",
 			c.RESTClient(),
 			scheme.ParameterCodec,
 			namespace,
-			func() *v2beta1.MPIJob { return &v2beta1.MPIJob{} },
-			func() *v2beta1.MPIJobList { return &v2beta1.MPIJobList{} }),
+			func() *v2beta1.GroupJob { return &v2beta1.GroupJob{} },
+			func() *v2beta1.GroupJobList { return &v2beta1.GroupJobList{} }),
 	}
 }

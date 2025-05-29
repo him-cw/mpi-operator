@@ -8,12 +8,12 @@ patches:
   target:
     group: apps
     kind: Deployment
-    name: mpi-operator
+    name: group-operator
     version: v1
 labels:
 - includeSelectors: true
   pairs:
-    app: mpi-operator
+    app: group-operator
     app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: mpi-operator
-    kustomize.component: mpi-operator
+    app.kubernetes.io/name: group-operator
+    kustomize.component: group-operator

@@ -3,7 +3,7 @@
 ## Release v0.6.0
 * Features:
   * Support ManagedBy feature (`.spec.runPolicy.managedBy`) inspired by batch/v1 Job.
-    * This allows us to dispatch MPIJobs to the multiple clusters powered by Kueue's MultiKueue. (#650, @mszadkow)
+    * This allows us to dispatch GroupJobs to the multiple clusters powered by Kueue's MultiKueue. (#650, @mszadkow)
 * Clean ups:
   * Upgrade k8s libraries to v1.31 (#664, @ArangoGutierrez)
   * Upgrade debian version to bookworm and MPI versions are upgraded in the following: (#661, @tenzen-y)
@@ -25,8 +25,8 @@
 
 ## Release v0.4.0
 * Breaking changes
-  * Removed v1 operator. If you want to use MPIJob v1, you can use the training-operator.
-* Support for suspending semantics. Third party controllers can leverage the suspend field to implement queuing and preemption for an MPIJob.
+  * Removed v1 operator. If you want to use GroupJob v1, you can use the training-operator.
+* Support for suspending semantics. Third party controllers can leverage the suspend field to implement queuing and preemption for an GroupJob.
 * Support for the coscheduling plugins of the scheduler-plugins. 
 * The operator supports multi-architecture (amd64, aarch64, and ppc64le).
 * Bug fixes
@@ -44,7 +44,7 @@
 * Production readiness improvements:
   * Increased coverage throughout unit, integration and E2E tests.
   * More robust API validation.
-  * Revisited v2beta1 MPIJob API.
+  * Revisited v2beta1 GroupJob API.
   * Using fully-qualified label names, in consistency with other kubeflow operators.
 
 ## Release v0.2.3
@@ -61,13 +61,13 @@
 * Added health check and callbacks around various leader election phases
 * Honor user-specified worker command
 * Exposed main container name as a configurable field
-* Added RunPolicy to MPIJobSpec that reuses [kubeflow/common](https://github.com/kubeflow/common) spec
+* Added RunPolicy to GroupJobSpec that reuses [kubeflow/common](https://github.com/kubeflow/common) spec
 * Allow to specify the name of the gang scheduler and priority for pod group
 * Added error log when pod spec does not have any containers
 * Switched to use distroless images
 * Refactored the kubectl-delivery to improve the launcher performance
 * Added Prometheus metrics for job monitoring
-* Added experimental version of v1 MPIJob controller and APIs
+* Added experimental version of v1 GroupJob controller and APIs
 * Support Volcano as a scheduler
 * Switched to use pods for launcher job and statefulset workers
 * Switched to use klog for logging
@@ -85,7 +85,7 @@
 * Added the [list of adopters](https://github.com/kubeflow/mpi-operator/blob/master/ADOPTERS.md) 
 * Added [roadmap document](https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md)
 * Revamped [contributing guidelines](https://github.com/kubeflow/mpi-operator/blob/master/CONTRIBUTING.md)
-* Added [MPIJob API reference page](https://www.kubeflow.org/docs/reference/mpijob/) on Kubeflow website
+* Added [GroupJob API reference page](https://www.kubeflow.org/docs/reference/mpijob/) on Kubeflow website
 * Added [a blog post](https://medium.com/kubeflow/introduction-to-kubeflow-mpi-operator-and-industry-adoption-296d5f2e6edc) for an introduction to MPI Operator and its industry adoption
 * Added a CPU-only example
 * Added licenses used by the dependencies
@@ -106,7 +106,7 @@
 ### API Changes
 
 * Add v1alpha2 version of the MPI Operator with more consistent API spec with other Kubeflow operators
-* Support `ActiveDeadlineSeconds` in `MPIJobSpec`
+* Support `ActiveDeadlineSeconds` in `GroupJobSpec`
 * Support custom resource types other than GPUs
 * Remove `launcherOnMaster` field
 

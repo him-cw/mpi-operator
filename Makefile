@@ -46,10 +46,10 @@ CRD_OPTIONS ?= "crd:generateEmbeddedObjectMeta=true"
 
 build: all
 
-all: ${BIN_DIR} fmt vet tidy lint test mpi-operator.v2
+all: ${BIN_DIR} fmt vet tidy lint test group-operator.v2
 
-.PHONY: mpi-operator.v2
-mpi-operator.v2:
+.PHONY: group-operator.v2
+group-operator.v2:
 	go build -ldflags ${LD_FLAGS_V2} -o ${BIN_DIR}/group-operator.v2 ./cmd/group-operator/
 
 ${BIN_DIR}:

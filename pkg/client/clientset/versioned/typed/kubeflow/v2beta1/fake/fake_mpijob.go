@@ -30,33 +30,33 @@ import (
 	testing "k8s.io/client-go/testing"
 )
 
-// FakeMPIJobs implements MPIJobInterface
-type FakeMPIJobs struct {
+// FakeGroupJobs implements GroupJobInterface
+type FakeGroupJobs struct {
 	Fake *FakeKubeflowV2beta1
 	ns   string
 }
 
-var mpijobsResource = v2beta1.SchemeGroupVersion.WithResource("mpijobs")
+var groupjobsResource = v2beta1.SchemeGroupVersion.WithResource("groupjobs")
 
-var mpijobsKind = v2beta1.SchemeGroupVersion.WithKind("MPIJob")
+var groupjobsKind = v2beta1.SchemeGroupVersion.WithKind("GroupJob")
 
 // Get takes name of the mPIJob, and returns the corresponding mPIJob object, and an error if there is any.
-func (c *FakeMPIJobs) Get(ctx context.Context, name string, options v1.GetOptions) (result *v2beta1.MPIJob, err error) {
-	emptyResult := &v2beta1.MPIJob{}
+func (c *FakeGroupJobs) Get(ctx context.Context, name string, options v1.GetOptions) (result *v2beta1.GroupJob, err error) {
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewGetActionWithOptions(mpijobsResource, c.ns, name, options), emptyResult)
+		Invokes(testing.NewGetActionWithOptions(groupjobsResource, c.ns, name, options), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }
 
-// List takes label and field selectors, and returns the list of MPIJobs that match those selectors.
-func (c *FakeMPIJobs) List(ctx context.Context, opts v1.ListOptions) (result *v2beta1.MPIJobList, err error) {
-	emptyResult := &v2beta1.MPIJobList{}
+// List takes label and field selectors, and returns the list of GroupJobs that match those selectors.
+func (c *FakeGroupJobs) List(ctx context.Context, opts v1.ListOptions) (result *v2beta1.GroupJobList, err error) {
+	emptyResult := &v2beta1.GroupJobList{}
 	obj, err := c.Fake.
-		Invokes(testing.NewListActionWithOptions(mpijobsResource, mpijobsKind, c.ns, opts), emptyResult)
+		Invokes(testing.NewListActionWithOptions(groupjobsResource, groupjobsKind, c.ns, opts), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
@@ -66,8 +66,8 @@ func (c *FakeMPIJobs) List(ctx context.Context, opts v1.ListOptions) (result *v2
 	if label == nil {
 		label = labels.Everything()
 	}
-	list := &v2beta1.MPIJobList{ListMeta: obj.(*v2beta1.MPIJobList).ListMeta}
-	for _, item := range obj.(*v2beta1.MPIJobList).Items {
+	list := &v2beta1.GroupJobList{ListMeta: obj.(*v2beta1.GroupJobList).ListMeta}
+	for _, item := range obj.(*v2beta1.GroupJobList).Items {
 		if label.Matches(labels.Set(item.Labels)) {
 			list.Items = append(list.Items, item)
 		}
@@ -76,79 +76,79 @@ func (c *FakeMPIJobs) List(ctx context.Context, opts v1.ListOptions) (result *v2
 }
 
 // Watch returns a watch.Interface that watches the requested mPIJobs.
-func (c *FakeMPIJobs) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
+func (c *FakeGroupJobs) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewWatchActionWithOptions(mpijobsResource, c.ns, opts))
+		InvokesWatch(testing.NewWatchActionWithOptions(groupjobsResource, c.ns, opts))
 
 }
 
 // Create takes the representation of a mPIJob and creates it.  Returns the server's representation of the mPIJob, and an error, if there is any.
-func (c *FakeMPIJobs) Create(ctx context.Context, mPIJob *v2beta1.MPIJob, opts v1.CreateOptions) (result *v2beta1.MPIJob, err error) {
-	emptyResult := &v2beta1.MPIJob{}
+func (c *FakeGroupJobs) Create(ctx context.Context, mPIJob *v2beta1.GroupJob, opts v1.CreateOptions) (result *v2beta1.GroupJob, err error) {
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewCreateActionWithOptions(mpijobsResource, c.ns, mPIJob, opts), emptyResult)
+		Invokes(testing.NewCreateActionWithOptions(groupjobsResource, c.ns, mPIJob, opts), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }
 
 // Update takes the representation of a mPIJob and updates it. Returns the server's representation of the mPIJob, and an error, if there is any.
-func (c *FakeMPIJobs) Update(ctx context.Context, mPIJob *v2beta1.MPIJob, opts v1.UpdateOptions) (result *v2beta1.MPIJob, err error) {
-	emptyResult := &v2beta1.MPIJob{}
+func (c *FakeGroupJobs) Update(ctx context.Context, mPIJob *v2beta1.GroupJob, opts v1.UpdateOptions) (result *v2beta1.GroupJob, err error) {
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateActionWithOptions(mpijobsResource, c.ns, mPIJob, opts), emptyResult)
+		Invokes(testing.NewUpdateActionWithOptions(groupjobsResource, c.ns, mPIJob, opts), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeMPIJobs) UpdateStatus(ctx context.Context, mPIJob *v2beta1.MPIJob, opts v1.UpdateOptions) (result *v2beta1.MPIJob, err error) {
-	emptyResult := &v2beta1.MPIJob{}
+func (c *FakeGroupJobs) UpdateStatus(ctx context.Context, mPIJob *v2beta1.GroupJob, opts v1.UpdateOptions) (result *v2beta1.GroupJob, err error) {
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewUpdateSubresourceActionWithOptions(mpijobsResource, "status", c.ns, mPIJob, opts), emptyResult)
+		Invokes(testing.NewUpdateSubresourceActionWithOptions(groupjobsResource, "status", c.ns, mPIJob, opts), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }
 
 // Delete takes name of the mPIJob and deletes it. Returns an error if one occurs.
-func (c *FakeMPIJobs) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
+func (c *FakeGroupJobs) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewDeleteActionWithOptions(mpijobsResource, c.ns, name, opts), &v2beta1.MPIJob{})
+		Invokes(testing.NewDeleteActionWithOptions(groupjobsResource, c.ns, name, opts), &v2beta1.GroupJob{})
 
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *FakeMPIJobs) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewDeleteCollectionActionWithOptions(mpijobsResource, c.ns, opts, listOpts)
+func (c *FakeGroupJobs) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+	action := testing.NewDeleteCollectionActionWithOptions(groupjobsResource, c.ns, opts, listOpts)
 
-	_, err := c.Fake.Invokes(action, &v2beta1.MPIJobList{})
+	_, err := c.Fake.Invokes(action, &v2beta1.GroupJobList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched mPIJob.
-func (c *FakeMPIJobs) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v2beta1.MPIJob, err error) {
-	emptyResult := &v2beta1.MPIJob{}
+func (c *FakeGroupJobs) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v2beta1.GroupJob, err error) {
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceActionWithOptions(mpijobsResource, c.ns, name, pt, data, opts, subresources...), emptyResult)
+		Invokes(testing.NewPatchSubresourceActionWithOptions(groupjobsResource, c.ns, name, pt, data, opts, subresources...), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }
 
 // Apply takes the given apply declarative configuration, applies it and returns the applied mPIJob.
-func (c *FakeMPIJobs) Apply(ctx context.Context, mPIJob *kubeflowv2beta1.MPIJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.MPIJob, err error) {
+func (c *FakeGroupJobs) Apply(ctx context.Context, mPIJob *kubeflowv2beta1.GroupJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.GroupJob, err error) {
 	if mPIJob == nil {
 		return nil, fmt.Errorf("mPIJob provided to Apply must not be nil")
 	}
@@ -160,19 +160,19 @@ func (c *FakeMPIJobs) Apply(ctx context.Context, mPIJob *kubeflowv2beta1.MPIJobA
 	if name == nil {
 		return nil, fmt.Errorf("mPIJob.Name must be provided to Apply")
 	}
-	emptyResult := &v2beta1.MPIJob{}
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceActionWithOptions(mpijobsResource, c.ns, *name, types.ApplyPatchType, data, opts.ToPatchOptions()), emptyResult)
+		Invokes(testing.NewPatchSubresourceActionWithOptions(groupjobsResource, c.ns, *name, types.ApplyPatchType, data, opts.ToPatchOptions()), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }
 
 // ApplyStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating ApplyStatus().
-func (c *FakeMPIJobs) ApplyStatus(ctx context.Context, mPIJob *kubeflowv2beta1.MPIJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.MPIJob, err error) {
+func (c *FakeGroupJobs) ApplyStatus(ctx context.Context, mPIJob *kubeflowv2beta1.GroupJobApplyConfiguration, opts v1.ApplyOptions) (result *v2beta1.GroupJob, err error) {
 	if mPIJob == nil {
 		return nil, fmt.Errorf("mPIJob provided to Apply must not be nil")
 	}
@@ -184,12 +184,12 @@ func (c *FakeMPIJobs) ApplyStatus(ctx context.Context, mPIJob *kubeflowv2beta1.M
 	if name == nil {
 		return nil, fmt.Errorf("mPIJob.Name must be provided to Apply")
 	}
-	emptyResult := &v2beta1.MPIJob{}
+	emptyResult := &v2beta1.GroupJob{}
 	obj, err := c.Fake.
-		Invokes(testing.NewPatchSubresourceActionWithOptions(mpijobsResource, c.ns, *name, types.ApplyPatchType, data, opts.ToPatchOptions(), "status"), emptyResult)
+		Invokes(testing.NewPatchSubresourceActionWithOptions(groupjobsResource, c.ns, *name, types.ApplyPatchType, data, opts.ToPatchOptions(), "status"), emptyResult)
 
 	if obj == nil {
 		return emptyResult, err
 	}
-	return obj.(*v2beta1.MPIJob), err
+	return obj.(*v2beta1.GroupJob), err
 }

@@ -23,46 +23,46 @@ import (
 	"k8s.io/client-go/tools/cache"
 )
 
-// MPIJobLister helps list MPIJobs.
+// GroupJobLister helps list GroupJobs.
 // All objects returned here must be treated as read-only.
-type MPIJobLister interface {
-	// List lists all MPIJobs in the indexer.
+type GroupJobLister interface {
+	// List lists all GroupJobs in the indexer.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v2beta1.MPIJob, err error)
-	// MPIJobs returns an object that can list and get MPIJobs.
-	MPIJobs(namespace string) MPIJobNamespaceLister
-	MPIJobListerExpansion
+	List(selector labels.Selector) (ret []*v2beta1.GroupJob, err error)
+	// GroupJobs returns an object that can list and get GroupJobs.
+	GroupJobs(namespace string) GroupJobNamespaceLister
+	GroupJobListerExpansion
 }
 
-// mPIJobLister implements the MPIJobLister interface.
+// mPIJobLister implements the GroupJobLister interface.
 type mPIJobLister struct {
-	listers.ResourceIndexer[*v2beta1.MPIJob]
+	listers.ResourceIndexer[*v2beta1.GroupJob]
 }
 
-// NewMPIJobLister returns a new MPIJobLister.
-func NewMPIJobLister(indexer cache.Indexer) MPIJobLister {
-	return &mPIJobLister{listers.New[*v2beta1.MPIJob](indexer, v2beta1.Resource("mpijob"))}
+// NewGroupJobLister returns a new GroupJobLister.
+func NewGroupJobLister(indexer cache.Indexer) GroupJobLister {
+	return &mPIJobLister{listers.New[*v2beta1.GroupJob](indexer, v2beta1.Resource("mpijob"))}
 }
 
-// MPIJobs returns an object that can list and get MPIJobs.
-func (s *mPIJobLister) MPIJobs(namespace string) MPIJobNamespaceLister {
-	return mPIJobNamespaceLister{listers.NewNamespaced[*v2beta1.MPIJob](s.ResourceIndexer, namespace)}
+// GroupJobs returns an object that can list and get GroupJobs.
+func (s *mPIJobLister) GroupJobs(namespace string) GroupJobNamespaceLister {
+	return mPIJobNamespaceLister{listers.NewNamespaced[*v2beta1.GroupJob](s.ResourceIndexer, namespace)}
 }
 
-// MPIJobNamespaceLister helps list and get MPIJobs.
+// GroupJobNamespaceLister helps list and get GroupJobs.
 // All objects returned here must be treated as read-only.
-type MPIJobNamespaceLister interface {
-	// List lists all MPIJobs in the indexer for a given namespace.
+type GroupJobNamespaceLister interface {
+	// List lists all GroupJobs in the indexer for a given namespace.
 	// Objects returned here must be treated as read-only.
-	List(selector labels.Selector) (ret []*v2beta1.MPIJob, err error)
-	// Get retrieves the MPIJob from the indexer for a given namespace and name.
+	List(selector labels.Selector) (ret []*v2beta1.GroupJob, err error)
+	// Get retrieves the GroupJob from the indexer for a given namespace and name.
 	// Objects returned here must be treated as read-only.
-	Get(name string) (*v2beta1.MPIJob, error)
-	MPIJobNamespaceListerExpansion
+	Get(name string) (*v2beta1.GroupJob, error)
+	GroupJobNamespaceListerExpansion
 }
 
-// mPIJobNamespaceLister implements the MPIJobNamespaceLister
+// mPIJobNamespaceLister implements the GroupJobNamespaceLister
 // interface.
 type mPIJobNamespaceLister struct {
-	listers.ResourceIndexer[*v2beta1.MPIJob]
+	listers.ResourceIndexer[*v2beta1.GroupJob]
 }

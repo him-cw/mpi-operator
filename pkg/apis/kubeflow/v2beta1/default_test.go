@@ -21,14 +21,14 @@ import (
 	"k8s.io/utils/ptr"
 )
 
-func TestSetDefaults_MPIJob(t *testing.T) {
+func TestSetDefaults_GroupJob(t *testing.T) {
 	cases := map[string]struct {
-		job  MPIJob
-		want MPIJob
+		job  GroupJob
+		want GroupJob
 	}{
 		"base defaults": {
-			want: MPIJob{
-				Spec: MPIJobSpec{
+			want: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](1),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy: ptr.To(CleanPodPolicyNone),
@@ -40,8 +40,8 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 			},
 		},
 		"base defaults overridden (intel)": {
-			job: MPIJob{
-				Spec: MPIJobSpec{
+			job: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](10),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy:          ptr.To(CleanPodPolicyRunning),
@@ -54,8 +54,8 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 					LauncherCreationPolicy: "AtStartup",
 				},
 			},
-			want: MPIJob{
-				Spec: MPIJobSpec{
+			want: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](10),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy:          ptr.To(CleanPodPolicyRunning),
@@ -70,8 +70,8 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 			},
 		},
 		"base defaults overridden (mpich)": {
-			job: MPIJob{
-				Spec: MPIJobSpec{
+			job: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](10),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy:          ptr.To(CleanPodPolicyRunning),
@@ -84,8 +84,8 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 					LauncherCreationPolicy: "AtStartup",
 				},
 			},
-			want: MPIJob{
-				Spec: MPIJobSpec{
+			want: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](10),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy:          ptr.To(CleanPodPolicyRunning),
@@ -100,15 +100,15 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 			},
 		},
 		"launcher defaults": {
-			job: MPIJob{
-				Spec: MPIJobSpec{
+			job: GroupJob{
+				Spec: GroupJobSpec{
 					MPIReplicaSpecs: map[MPIReplicaType]*ReplicaSpec{
 						MPIReplicaTypeLauncher: {},
 					},
 				},
 			},
-			want: MPIJob{
-				Spec: MPIJobSpec{
+			want: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](1),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy: ptr.To(CleanPodPolicyNone),
@@ -126,15 +126,15 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 			},
 		},
 		"worker defaults": {
-			job: MPIJob{
-				Spec: MPIJobSpec{
+			job: GroupJob{
+				Spec: GroupJobSpec{
 					MPIReplicaSpecs: map[MPIReplicaType]*ReplicaSpec{
 						MPIReplicaTypeWorker: {},
 					},
 				},
 			},
-			want: MPIJob{
-				Spec: MPIJobSpec{
+			want: GroupJob{
+				Spec: GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](1),
 					RunPolicy: RunPolicy{
 						CleanPodPolicy: ptr.To(CleanPodPolicyNone),
@@ -155,7 +155,7 @@ func TestSetDefaults_MPIJob(t *testing.T) {
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
 			got := tc.job.DeepCopy()
-			SetDefaults_MPIJob(got)
+			SetDefaults_GroupJob(got)
 			if diff := cmp.Diff(tc.want, *got); diff != "" {
 				t.Errorf("Unexpected changes (-want,+got):\n%s", diff)
 			}

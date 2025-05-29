@@ -30,11 +30,11 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// MPIJobInformer provides access to a shared informer and lister for
-// MPIJobs.
-type MPIJobInformer interface {
+// GroupJobInformer provides access to a shared informer and lister for
+// GroupJobs.
+type GroupJobInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v2beta1.MPIJobLister
+	Lister() v2beta1.GroupJobLister
 }
 
 type mPIJobInformer struct {
@@ -43,46 +43,46 @@ type mPIJobInformer struct {
 	namespace        string
 }
 
-// NewMPIJobInformer constructs a new informer for MPIJob type.
+// NewGroupJobInformer constructs a new informer for GroupJob type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewMPIJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredMPIJobInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewGroupJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredGroupJobInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredMPIJobInformer constructs a new informer for MPIJob type.
+// NewFilteredGroupJobInformer constructs a new informer for GroupJob type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredMPIJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredGroupJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubeflowV2beta1().MPIJobs(namespace).List(context.TODO(), options)
+				return client.KubeflowV2beta1().GroupJobs(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubeflowV2beta1().MPIJobs(namespace).Watch(context.TODO(), options)
+				return client.KubeflowV2beta1().GroupJobs(namespace).Watch(context.TODO(), options)
 			},
 		},
-		&kubeflowv2beta1.MPIJob{},
+		&kubeflowv2beta1.GroupJob{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
 func (f *mPIJobInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredMPIJobInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	return NewFilteredGroupJobInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
 func (f *mPIJobInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&kubeflowv2beta1.MPIJob{}, f.defaultInformer)
+	return f.factory.InformerFor(&kubeflowv2beta1.GroupJob{}, f.defaultInformer)
 }
 
-func (f *mPIJobInformer) Lister() v2beta1.MPIJobLister {
-	return v2beta1.NewMPIJobLister(f.Informer().GetIndexer())
+func (f *mPIJobInformer) Lister() v2beta1.GroupJobLister {
+	return v2beta1.NewGroupJobLister(f.Informer().GetIndexer())
 }

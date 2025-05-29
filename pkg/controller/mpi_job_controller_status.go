@@ -23,23 +23,23 @@ import (
 
 const (
 	// mpiJobCreatedReason is added in a mpijob when it is created.
-	mpiJobCreatedReason = "MPIJobCreated"
+	mpiJobCreatedReason = "GroupJobCreated"
 	// mpiJobSucceededReason is added in a mpijob when it is succeeded.
-	mpiJobSucceededReason = "MPIJobSucceeded"
+	mpiJobSucceededReason = "GroupJobSucceeded"
 	// mpiJobRunningReason is added in a mpijob when it is running.
-	mpiJobRunningReason = "MPIJobRunning"
+	mpiJobRunningReason = "GroupJobRunning"
 	// mpiJobSuspendedReason is added in a mpijob when it is suspended.
-	mpiJobSuspendedReason = "MPIJobSuspended"
+	mpiJobSuspendedReason = "GroupJobSuspended"
 	// mpiJobResumedReason is added in a mpijob when it is resumed.
-	mpiJobResumedReason = "MPIJobResumed"
+	mpiJobResumedReason = "GroupJobResumed"
 	// mpiJobFailedReason is added in a mpijob when it is failed.
-	mpiJobFailedReason = "MPIJobFailed"
+	mpiJobFailedReason = "GroupJobFailed"
 	// mpiJobEvict
-	mpiJobEvict = "MPIJobEvicted"
+	mpiJobEvict = "GroupJobEvicted"
 )
 
-// initializeMPIJobStatuses initializes the ReplicaStatuses for MPIJob.
-func initializeMPIJobStatuses(mpiJob *kubeflow.MPIJob, mtype kubeflow.MPIReplicaType) {
+// initializeGroupJobStatuses initializes the ReplicaStatuses for GroupJob.
+func initializeGroupJobStatuses(mpiJob *kubeflow.GroupJob, mtype kubeflow.MPIReplicaType) {
 	if mpiJob.Status.ReplicaStatuses == nil {
 		mpiJob.Status.ReplicaStatuses = make(map[kubeflow.MPIReplicaType]*kubeflow.ReplicaStatus)
 	}
@@ -47,8 +47,8 @@ func initializeMPIJobStatuses(mpiJob *kubeflow.MPIJob, mtype kubeflow.MPIReplica
 	mpiJob.Status.ReplicaStatuses[mtype] = &kubeflow.ReplicaStatus{}
 }
 
-// updateMPIJobConditions updates the conditions of the given mpiJob.
-func updateMPIJobConditions(mpiJob *kubeflow.MPIJob, conditionType kubeflow.JobConditionType, status v1.ConditionStatus, reason, message string) bool {
+// updateGroupJobConditions updates the conditions of the given mpiJob.
+func updateGroupJobConditions(mpiJob *kubeflow.GroupJob, conditionType kubeflow.JobConditionType, status v1.ConditionStatus, reason, message string) bool {
 	condition := newCondition(conditionType, status, reason, message)
 	return setCondition(&mpiJob.Status, condition)
 }

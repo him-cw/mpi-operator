@@ -26,7 +26,7 @@ import (
 
 type KubeflowV2beta1Interface interface {
 	RESTClient() rest.Interface
-	MPIJobsGetter
+	GroupJobsGetter
 }
 
 // KubeflowV2beta1Client is used to interact with features provided by the kubeflow.org group.
@@ -34,8 +34,8 @@ type KubeflowV2beta1Client struct {
 	restClient rest.Interface
 }
 
-func (c *KubeflowV2beta1Client) MPIJobs(namespace string) MPIJobInterface {
-	return newMPIJobs(c, namespace)
+func (c *KubeflowV2beta1Client) GroupJobs(namespace string) GroupJobInterface {
+	return newGroupJobs(c, namespace)
 }
 
 // NewForConfig creates a new KubeflowV2beta1Client for the given config.

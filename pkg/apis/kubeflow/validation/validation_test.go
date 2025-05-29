@@ -26,17 +26,17 @@ import (
 	"k8s.io/utils/ptr"
 )
 
-func TestValidateMPIJob(t *testing.T) {
+func TestValidateGroupJob(t *testing.T) {
 	cases := map[string]struct {
-		job      kubeflow.MPIJob
+		job      kubeflow.GroupJob
 		wantErrs field.ErrorList
 	}{
 		"valid (intel)": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -58,11 +58,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"valid with worker (intel)": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -93,11 +93,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"valid (mpich)": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -119,11 +119,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"valid with worker (mpich)": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -182,11 +182,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"invalid fields": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "this-name-is-waaaaaaaay-too-long-for-a-worker-hostname",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy:          ptr.To[kubeflow.CleanPodPolicy]("unknown"),
@@ -251,11 +251,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"empty replica specs": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -273,11 +273,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"missing replica spec fields": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -318,11 +318,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"invalid replica fields": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -371,11 +371,11 @@ func TestValidateMPIJob(t *testing.T) {
 			},
 		},
 		"invalid mpiJob name": {
-			job: kubeflow.MPIJob{
+			job: kubeflow.GroupJob{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: "1-foo",
 				},
-				Spec: kubeflow.MPIJobSpec{
+				Spec: kubeflow.GroupJobSpec{
 					SlotsPerWorker: ptr.To[int32](2),
 					RunPolicy: kubeflow.RunPolicy{
 						CleanPodPolicy: ptr.To(kubeflow.CleanPodPolicyRunning),
@@ -403,7 +403,7 @@ func TestValidateMPIJob(t *testing.T) {
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
-			got := ValidateMPIJob(&tc.job)
+			got := ValidateGroupJob(&tc.job)
 			if diff := cmp.Diff(tc.wantErrs, got, cmpopts.IgnoreFields(field.Error{}, "Detail", "BadValue")); diff != "" {
 				t.Errorf("Unexpected errors (-want,+got):\n%s", diff)
 			}

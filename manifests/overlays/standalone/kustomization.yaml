@@ -3,22 +3,22 @@ kind: Kustomization
 resources:
 - ../../base
 - namespace.yaml
-namespace: mpi-operator
+namespace: group-operator
 images:
-- name: mpioperator/mpi-operator
-  newName: mpioperator/mpi-operator
+- name: mpioperator/group-operator
+  newName: mpioperator/group-operator
   newTag: master
 patches:
 - path: ./patch.yaml
   target:
     group: apps
     kind: Deployment
-    name: mpi-operator
+    name: group-operator
     version: v1
 labels:
 - includeSelectors: true
   pairs:
-    app: mpi-operator
+    app: group-operator
     app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: mpi-operator
-    kustomize.component: mpi-operator
+    app.kubernetes.io/name: group-operator
+    kustomize.component: group-operator

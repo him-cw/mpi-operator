@@ -26,8 +26,8 @@ type FakeKubeflowV2beta1 struct {
 	*testing.Fake
 }
 
-func (c *FakeKubeflowV2beta1) MPIJobs(namespace string) v2beta1.MPIJobInterface {
-	return &FakeMPIJobs{c, namespace}
+func (c *FakeKubeflowV2beta1) GroupJobs(namespace string) v2beta1.GroupJobInterface {
+	return &FakeGroupJobs{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

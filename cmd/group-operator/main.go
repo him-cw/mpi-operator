@@ -21,8 +21,8 @@ import (
 
 	"k8s.io/klog"
 
-	"github.com/coreweave/group-operator/cmd/mpi-operator/app"
-	"github.com/coreweave/group-operator/cmd/mpi-operator/app/options"
+	"github.com/coreweave/group-operator/cmd/group-operator/app"
+	"github.com/coreweave/group-operator/cmd/group-operator/app/options"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 

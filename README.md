@@ -60,13 +60,13 @@ kubectl kustomize base | kubectl apply -f -
 
 ## Creating an MPI Job
 
-You can create an MPI job by defining an `MPIJob` config file. See [TensorFlow benchmark example](examples/v2beta1/tensorflow-benchmarks/tensorflow-benchmarks.yaml) config file for launching a multi-node TensorFlow benchmark training job. You may change the config file based on your requirements.
+You can create an MPI job by defining an `GroupJob` config file. See [TensorFlow benchmark example](examples/v2beta1/tensorflow-benchmarks/tensorflow-benchmarks.yaml) config file for launching a multi-node TensorFlow benchmark training job. You may change the config file based on your requirements.
 
 ```
 cat examples/v2beta1/tensorflow-benchmarks/tensorflow-benchmarks.yaml
 ```
 
-Deploy the `MPIJob` resource to start training:
+Deploy the `GroupJob` resource to start training:
 
 ```
 kubectl apply -f examples/v2beta1/tensorflow-benchmarks/tensorflow-benchmarks.yaml
@@ -74,7 +74,7 @@ kubectl apply -f examples/v2beta1/tensorflow-benchmarks/tensorflow-benchmarks.ya
 
 ## Monitoring an MPI Job
 
-Once the `MPIJob` resource is created, you should now be able to see the created pods matching the specified number of GPUs. You can also monitor the job status from the status section. Here is sample output when the job is successfully completed.
+Once the `GroupJob` resource is created, you should now be able to see the created pods matching the specified number of GPUs. You can also monitor the job status from the status section. Here is sample output when the job is successfully completed.
 
 ```
 kubectl get -o yaml mpijobs tensorflow-benchmarks
@@ -82,7 +82,7 @@ kubectl get -o yaml mpijobs tensorflow-benchmarks
 
 ```
 apiVersion: kubeflow.org/v2beta1
-kind: MPIJob
+kind: GroupJob
 metadata:
   creationTimestamp: "2019-07-09T22:15:51Z"
   generation: 1
@@ -144,20 +144,20 @@ status:
   conditions:
   - lastTransitionTime: "2019-07-09T22:15:51Z"
     lastUpdateTime: "2019-07-09T22:15:51Z"
-    message: MPIJob default/tensorflow-benchmarks is created.
-    reason: MPIJobCreated
+    message: GroupJob default/tensorflow-benchmarks is created.
+    reason: GroupJobCreated
     status: "True"
     type: Created
   - lastTransitionTime: "2019-07-09T22:15:54Z"
     lastUpdateTime: "2019-07-09T22:15:54Z"
-    message: MPIJob default/tensorflow-benchmarks is running.
-    reason: MPIJobRunning
+    message: GroupJob default/tensorflow-benchmarks is running.
+    reason: GroupJobRunning
     status: "False"
     type: Running
   - lastTransitionTime: "2019-07-09T22:17:06Z"
     lastUpdateTime: "2019-07-09T22:17:06Z"
-    message: MPIJob default/tensorflow-benchmarks successfully completed.
-    reason: MPIJobSucceeded
+    message: GroupJob default/tensorflow-benchmarks successfully completed.
+    reason: GroupJobSucceeded
     status: "True"
     type: Succeeded
   replicaStatuses:

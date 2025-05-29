@@ -46,7 +46,7 @@ const (
 	envSchedulerPluginsVersion = "SCHEDULER_PLUGINS_VERSION"
 	envVolcanoSchedulerVersion = "VOLCANO_SCHEDULER_VERSION"
 
-	defaultMPIOperatorImage = "mpioperator/mpi-operator:local"
+	defaultMPIOperatorImage = "mpioperator/group-operator:local"
 	defaultKindImage        = "kindest/node:v1.31.0"
 	defaultOpenMPIImage     = "mpioperator/mpi-pi:openmpi"
 	defaultIntelMPIImage    = "mpioperator/mpi-pi:intel"
@@ -64,7 +64,7 @@ const (
 	defaultSchedulerPluginsVersion = "v0.29.8"
 	defaultVolcanoSchedulerVersion = "v1.10.0"
 
-	mpiOperator      = "mpi-operator"
+	mpiOperator      = "group-operator"
 	schedulerPlugins = "scheduler-plugins"
 
 	waitInterval   = 500 * time.Millisecond

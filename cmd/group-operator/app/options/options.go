@@ -58,8 +58,8 @@ func (s *ServerOption) AddFlags(fs *flag.FlagSet) {
 		"Path to a kubeConfig. Only required if out-of-cluster.")
 
 	fs.StringVar(&s.Namespace, "namespace", os.Getenv(v2beta1.EnvKubeflowNamespace),
-		`The namespace to monitor mpijobs. If unset, it monitors all namespaces cluster-wide. 
-                If set, it only monitors mpijobs in the given namespace.`)
+		`The namespace to monitor groupjobs. If unset, it monitors all namespaces cluster-wide. 
+                If set, it only monitors groupjobs in the given namespace.`)
 
 	fs.IntVar(&s.Threadiness, "threadiness", 2,
 		`How many threads to process the main logic`)
@@ -71,9 +71,9 @@ func (s *ServerOption) AddFlags(fs *flag.FlagSet) {
 
 	fs.StringVar(&s.GangSchedulingName, "gang-scheduling", "",
 		`Set gang scheduler name if enable gang scheduling. Now Supporting volcano and scheduler-plugins.
-                Note: If you set another scheduler name, the mpi-operator assumes it's the scheduler-plugins`)
+                Note: If you set another scheduler name, the group-operator assumes it's the scheduler-plugins`)
 
-	fs.StringVar(&s.LockNamespace, "lock-namespace", "mpi-operator", "Set locked namespace name while enabling leader election.")
+	fs.StringVar(&s.LockNamespace, "lock-namespace", "group-operator", "Set locked namespace name while enabling leader election.")
 
 	fs.IntVar(&s.QPS, "kube-api-qps", 5, "QPS indicates the maximum QPS to the master from this client.")
 	fs.IntVar(&s.Burst, "kube-api-burst", 10, "Maximum burst for throttle.")

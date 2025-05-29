@@ -16,10 +16,10 @@
 
 package v2beta1
 
-// MPIJobListerExpansion allows custom methods to be added to
-// MPIJobLister.
-type MPIJobListerExpansion interface{}
+// GroupJobListerExpansion allows custom methods to be added to
+// GroupJobLister.
+type GroupJobListerExpansion interface{}
 
-// MPIJobNamespaceListerExpansion allows custom methods to be added to
-// MPIJobNamespaceLister.
-type MPIJobNamespaceListerExpansion interface{}
+// GroupJobNamespaceListerExpansion allows custom methods to be added to
+// GroupJobNamespaceLister.
+type GroupJobNamespaceListerExpansion interface{}

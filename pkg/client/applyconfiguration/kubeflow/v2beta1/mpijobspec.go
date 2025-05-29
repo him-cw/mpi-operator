@@ -20,9 +20,9 @@ import (
 	kubeflowv2beta1 "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
 )
 
-// MPIJobSpecApplyConfiguration represents a declarative configuration of the MPIJobSpec type for use
+// GroupJobSpecApplyConfiguration represents a declarative configuration of the GroupJobSpec type for use
 // with apply.
-type MPIJobSpecApplyConfiguration struct {
+type GroupJobSpecApplyConfiguration struct {
 	SlotsPerWorker         *int32                                                          `json:"slotsPerWorker,omitempty"`
 	RunLauncherAsWorker    *bool                                                           `json:"runLauncherAsWorker,omitempty"`
 	RunPolicy              *RunPolicyApplyConfiguration                                    `json:"runPolicy,omitempty"`
@@ -32,16 +32,16 @@ type MPIJobSpecApplyConfiguration struct {
 	MPIImplementation      *kubeflowv2beta1.MPIImplementation                              `json:"mpiImplementation,omitempty"`
 }
 
-// MPIJobSpecApplyConfiguration constructs a declarative configuration of the MPIJobSpec type for use with
+// GroupJobSpecApplyConfiguration constructs a declarative configuration of the GroupJobSpec type for use with
 // apply.
-func MPIJobSpec() *MPIJobSpecApplyConfiguration {
-	return &MPIJobSpecApplyConfiguration{}
+func GroupJobSpec() *GroupJobSpecApplyConfiguration {
+	return &GroupJobSpecApplyConfiguration{}
 }
 
 // WithSlotsPerWorker sets the SlotsPerWorker field in the declarative configuration to the given value
 // and returns the receiver, so that objects can be built by chaining "With" function invocations.
 // If called multiple times, the SlotsPerWorker field is set to the value of the last call.
-func (b *MPIJobSpecApplyConfiguration) WithSlotsPerWorker(value int32) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithSlotsPerWorker(value int32) *GroupJobSpecApplyConfiguration {
 	b.SlotsPerWorker = &value
 	return b
 }
@@ -49,7 +49,7 @@ func (b *MPIJobSpecApplyConfiguration) WithSlotsPerWorker(value int32) *MPIJobSp
 // WithRunLauncherAsWorker sets the RunLauncherAsWorker field in the declarative configuration to the given value
 // and returns the receiver, so that objects can be built by chaining "With" function invocations.
 // If called multiple times, the RunLauncherAsWorker field is set to the value of the last call.
-func (b *MPIJobSpecApplyConfiguration) WithRunLauncherAsWorker(value bool) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithRunLauncherAsWorker(value bool) *GroupJobSpecApplyConfiguration {
 	b.RunLauncherAsWorker = &value
 	return b
 }
@@ -57,7 +57,7 @@ func (b *MPIJobSpecApplyConfiguration) WithRunLauncherAsWorker(value bool) *MPIJ
 // WithRunPolicy sets the RunPolicy field in the declarative configuration to the given value
 // and returns the receiver, so that objects can be built by chaining "With" function invocations.
 // If called multiple times, the RunPolicy field is set to the value of the last call.
-func (b *MPIJobSpecApplyConfiguration) WithRunPolicy(value *RunPolicyApplyConfiguration) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithRunPolicy(value *RunPolicyApplyConfiguration) *GroupJobSpecApplyConfiguration {
 	b.RunPolicy = value
 	return b
 }
@@ -66,7 +66,7 @@ func (b *MPIJobSpecApplyConfiguration) WithRunPolicy(value *RunPolicyApplyConfig
 // and returns the receiver, so that objects can be build by chaining "With" function invocations.
 // If called multiple times, the entries provided by each call will be put on the MPIReplicaSpecs field,
 // overwriting an existing map entries in MPIReplicaSpecs field with the same key.
-func (b *MPIJobSpecApplyConfiguration) WithMPIReplicaSpecs(entries map[kubeflowv2beta1.MPIReplicaType]*kubeflowv2beta1.ReplicaSpec) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithMPIReplicaSpecs(entries map[kubeflowv2beta1.MPIReplicaType]*kubeflowv2beta1.ReplicaSpec) *GroupJobSpecApplyConfiguration {
 	if b.MPIReplicaSpecs == nil && len(entries) > 0 {
 		b.MPIReplicaSpecs = make(map[kubeflowv2beta1.MPIReplicaType]*kubeflowv2beta1.ReplicaSpec, len(entries))
 	}
@@ -79,7 +79,7 @@ func (b *MPIJobSpecApplyConfiguration) WithMPIReplicaSpecs(entries map[kubeflowv
 // WithSSHAuthMountPath sets the SSHAuthMountPath field in the declarative configuration to the given value
 // and returns the receiver, so that objects can be built by chaining "With" function invocations.
 // If called multiple times, the SSHAuthMountPath field is set to the value of the last call.
-func (b *MPIJobSpecApplyConfiguration) WithSSHAuthMountPath(value string) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithSSHAuthMountPath(value string) *GroupJobSpecApplyConfiguration {
 	b.SSHAuthMountPath = &value
 	return b
 }
@@ -87,7 +87,7 @@ func (b *MPIJobSpecApplyConfiguration) WithSSHAuthMountPath(value string) *MPIJo
 // WithLauncherCreationPolicy sets the LauncherCreationPolicy field in the declarative configuration to the given value
 // and returns the receiver, so that objects can be built by chaining "With" function invocations.
 // If called multiple times, the LauncherCreationPolicy field is set to the value of the last call.
-func (b *MPIJobSpecApplyConfiguration) WithLauncherCreationPolicy(value kubeflowv2beta1.LauncherCreationPolicy) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithLauncherCreationPolicy(value kubeflowv2beta1.LauncherCreationPolicy) *GroupJobSpecApplyConfiguration {
 	b.LauncherCreationPolicy = &value
 	return b
 }
@@ -95,7 +95,7 @@ func (b *MPIJobSpecApplyConfiguration) WithLauncherCreationPolicy(value kubeflow
 // WithMPIImplementation sets the MPIImplementation field in the declarative configuration to the given value
 // and returns the receiver, so that objects can be built by chaining "With" function invocations.
 // If called multiple times, the MPIImplementation field is set to the value of the last call.
-func (b *MPIJobSpecApplyConfiguration) WithMPIImplementation(value kubeflowv2beta1.MPIImplementation) *MPIJobSpecApplyConfiguration {
+func (b *GroupJobSpecApplyConfiguration) WithMPIImplementation(value kubeflowv2beta1.MPIImplementation) *GroupJobSpecApplyConfiguration {
 	b.MPIImplementation = &value
 	return b
 }

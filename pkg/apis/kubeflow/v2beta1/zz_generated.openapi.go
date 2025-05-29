@@ -29,9 +29,9 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 	return map[string]common.OpenAPIDefinition{
 		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.JobCondition":     schema_pkg_apis_kubeflow_v2beta1_JobCondition(ref),
 		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.JobStatus":        schema_pkg_apis_kubeflow_v2beta1_JobStatus(ref),
-		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJob":           schema_pkg_apis_kubeflow_v2beta1_MPIJob(ref),
-		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJobList":       schema_pkg_apis_kubeflow_v2beta1_MPIJobList(ref),
-		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJobSpec":       schema_pkg_apis_kubeflow_v2beta1_MPIJobSpec(ref),
+		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJob":         schema_pkg_apis_kubeflow_v2beta1_GroupJob(ref),
+		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJobList":     schema_pkg_apis_kubeflow_v2beta1_GroupJobList(ref),
+		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJobSpec":     schema_pkg_apis_kubeflow_v2beta1_GroupJobSpec(ref),
 		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.ReplicaSpec":      schema_pkg_apis_kubeflow_v2beta1_ReplicaSpec(ref),
 		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.ReplicaStatus":    schema_pkg_apis_kubeflow_v2beta1_ReplicaStatus(ref),
 		"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.RunPolicy":        schema_pkg_apis_kubeflow_v2beta1_RunPolicy(ref),
@@ -219,7 +219,7 @@ func schema_pkg_apis_kubeflow_v2beta1_JobStatus(ref common.ReferenceCallback) co
 	}
 }
 
-func schema_pkg_apis_kubeflow_v2beta1_MPIJob(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_kubeflow_v2beta1_GroupJob(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -248,7 +248,7 @@ func schema_pkg_apis_kubeflow_v2beta1_MPIJob(ref common.ReferenceCallback) commo
 					"spec": {
 						SchemaProps: spec.SchemaProps{
 							Default: map[string]interface{}{},
-							Ref:     ref("github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJobSpec"),
+							Ref:     ref("github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJobSpec"),
 						},
 					},
 					"status": {
@@ -261,11 +261,11 @@ func schema_pkg_apis_kubeflow_v2beta1_MPIJob(ref common.ReferenceCallback) commo
 			},
 		},
 		Dependencies: []string{
-			"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.JobStatus", "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJobSpec", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.JobStatus", "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJobSpec", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
-func schema_pkg_apis_kubeflow_v2beta1_MPIJobList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_kubeflow_v2beta1_GroupJobList(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -298,7 +298,7 @@ func schema_pkg_apis_kubeflow_v2beta1_MPIJobList(ref common.ReferenceCallback) c
 								Schema: &spec.Schema{
 									SchemaProps: spec.SchemaProps{
 										Default: map[string]interface{}{},
-										Ref:     ref("github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJob"),
+										Ref:     ref("github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJob"),
 									},
 								},
 							},
@@ -309,11 +309,11 @@ func schema_pkg_apis_kubeflow_v2beta1_MPIJobList(ref common.ReferenceCallback) c
 			},
 		},
 		Dependencies: []string{
-			"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.MPIJob", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
+			"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1.GroupJob", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
 	}
 }
 
-func schema_pkg_apis_kubeflow_v2beta1_MPIJobSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+func schema_pkg_apis_kubeflow_v2beta1_GroupJobSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
@@ -512,14 +512,14 @@ func schema_pkg_apis_kubeflow_v2beta1_RunPolicy(ref common.ReferenceCallback) co
 					},
 					"suspend": {
 						SchemaProps: spec.SchemaProps{
-							Description: "suspend specifies whether the MPIJob controller should create Pods or not. If a MPIJob is created with suspend set to true, no Pods are created by the MPIJob controller. If a MPIJob is suspended after creation (i.e. the flag goes from false to true), the MPIJob controller will delete all active Pods and PodGroups associated with this MPIJob. Also, it will suspend the Launcher Job. Users must design their workload to gracefully handle this. Suspending a Job will reset the StartTime field of the MPIJob.\n\nDefaults to false.",
+							Description: "suspend specifies whether the GroupJob controller should create Pods or not. If a GroupJob is created with suspend set to true, no Pods are created by the GroupJob controller. If a GroupJob is suspended after creation (i.e. the flag goes from false to true), the GroupJob controller will delete all active Pods and PodGroups associated with this GroupJob. Also, it will suspend the Launcher Job. Users must design their workload to gracefully handle this. Suspending a Job will reset the StartTime field of the GroupJob.\n\nDefaults to false.",
 							Type:        []string{"boolean"},
 							Format:      "",
 						},
 					},
 					"managedBy": {
 						SchemaProps: spec.SchemaProps{
-							Description: "ManagedBy is used to indicate the controller or entity that manages a MPIJob. The value must be either empty, 'kubeflow.org/mpi-operator' or 'kueue.x-k8s.io/multikueue'. The mpi-operator reconciles a MPIJob which doesn't have this field at all or the field value is the reserved string 'kubeflow.org/mpi-operator', but delegates reconciling the MPIJob with 'kueue.x-k8s.io/multikueue' to the Kueue. The field is immutable.",
+							Description: "ManagedBy is used to indicate the controller or entity that manages a GroupJob. The value must be either empty, 'kubeflow.org/group-operator' or 'kueue.x-k8s.io/multikueue'. The group-operator reconciles a GroupJob which doesn't have this field at all or the field value is the reserved string 'kubeflow.org/group-operator', but delegates reconciling the GroupJob with 'kueue.x-k8s.io/multikueue' to the Kueue. The field is immutable.",
 							Type:        []string{"string"},
 							Format:      "",
 						},

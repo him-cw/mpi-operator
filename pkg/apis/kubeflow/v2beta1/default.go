@@ -57,7 +57,7 @@ func setDefaultsRunPolicy(policy *RunPolicy) {
 	// own defaulting.
 }
 
-func SetDefaults_MPIJob(mpiJob *MPIJob) {
+func SetDefaults_GroupJob(mpiJob *GroupJob) {
 	setDefaultsRunPolicy(&mpiJob.Spec.RunPolicy)
 	if mpiJob.Spec.SlotsPerWorker == nil {
 		mpiJob.Spec.SlotsPerWorker = ptr.To[int32](1)
