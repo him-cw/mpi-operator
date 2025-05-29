@@ -23,7 +23,7 @@ import (
 	apimachineryvalidation "k8s.io/apimachinery/pkg/util/validation"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 
-	kubeflow "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
+	kubeflow "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
 )
 
 var (

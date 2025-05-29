@@ -17,7 +17,7 @@
 package v2beta1
 
 import (
-	kubeflowv2beta1 "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
+	kubeflowv2beta1 "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
 )
 
 // MPIJobSpecApplyConfiguration represents a declarative configuration of the MPIJobSpec type for use

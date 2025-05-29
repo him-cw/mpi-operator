@@ -44,12 +44,12 @@ import (
 	schedclientset "sigs.k8s.io/scheduler-plugins/pkg/generated/clientset/versioned"
 	volcanoclient "volcano.sh/apis/pkg/client/clientset/versioned"
 
-	"github.com/kubeflow/mpi-operator/cmd/mpi-operator/app/options"
-	mpijobclientset "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned"
-	kubeflowscheme "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/scheme"
-	informers "github.com/kubeflow/mpi-operator/pkg/client/informers/externalversions"
-	controllersv1 "github.com/kubeflow/mpi-operator/pkg/controller"
-	"github.com/kubeflow/mpi-operator/pkg/version"
+	"github.com/coreweave/group-operator/cmd/mpi-operator/app/options"
+	mpijobclientset "github.com/coreweave/group-operator/pkg/client/clientset/versioned"
+	kubeflowscheme "github.com/coreweave/group-operator/pkg/client/clientset/versioned/scheme"
+	informers "github.com/coreweave/group-operator/pkg/client/informers/externalversions"
+	controllersv1 "github.com/coreweave/group-operator/pkg/controller"
+	"github.com/coreweave/group-operator/pkg/version"
 )
 
 const (

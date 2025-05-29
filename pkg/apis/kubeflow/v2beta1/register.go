@@ -21,10 +21,10 @@ import (
 )
 
 const (
-       // GroupName is the group name use in this package.
-       GroupName = "coreweave.com"
-       // Kind is the kind name.
-       Kind = "GroupJob"
+	// GroupName is the group name use in this package.
+	GroupName = "coreweave.com"
+	// Kind is the kind name.
+	Kind = "GroupJob"
 	// GroupVersion is the version.
 	GroupVersion = "v2beta1"
 )

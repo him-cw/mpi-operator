@@ -17,10 +17,10 @@
 package fake
 
 import (
-	applyconfiguration "github.com/kubeflow/mpi-operator/pkg/client/applyconfiguration"
-	clientset "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned"
-	kubeflowv2beta1 "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/typed/kubeflow/v2beta1"
-	fakekubeflowv2beta1 "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/typed/kubeflow/v2beta1/fake"
+	applyconfiguration "github.com/coreweave/group-operator/pkg/client/applyconfiguration"
+	clientset "github.com/coreweave/group-operator/pkg/client/clientset/versioned"
+	kubeflowv2beta1 "github.com/coreweave/group-operator/pkg/client/clientset/versioned/typed/kubeflow/v2beta1"
+	fakekubeflowv2beta1 "github.com/coreweave/group-operator/pkg/client/clientset/versioned/typed/kubeflow/v2beta1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

@@ -1,32 +1,9 @@
-# --------------------------------------------------
-# - Single configuration deployment YAML for MPI-Operator
-# - Includes:
-#      CRD
-#      Namespace
-#      RBAC
-#      Controller deployment
-# --------------------------------------------------
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-  name: group-operator-system
 ---
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.4
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
   name: groupjobs.coreweave.com
 spec:
   group: coreweave.com
@@ -8175,12 +8152,12 @@ spec:
                     type: string
                   managedBy:
                     description: |-
-                      ManagedBy is used to indicate the controller or entity that manages a MPIJob.
-                      The value must be either empty, 'kubeflow.org/group-operator' or
+                      ManagedBy is used to indicate the controller or entity that manages a GroupJob.
+                      The value must be either empty, 'coreweave.com/group-operator' or
                       'kueue.x-k8s.io/multikueue'.
-                      The group-operator reconciles a MPIJob which doesn't have this
+                      The group-operator reconciles a GroupJob which doesn't have this
                       field at all or the field value is the reserved string
-                      'kubeflow.org/group-operator', but delegates reconciling the MPIJob
+                      'coreweave.com/group-operator', but delegates reconciling the GroupJob
                       with 'kueue.x-k8s.io/multikueue' to the Kueue.
                       The field is immutable.
                     type: string
@@ -8238,13 +8215,13 @@ spec:
                   suspend:
                     default: false
                     description: |-
-                      suspend specifies whether the MPIJob controller should create Pods or not.
-                      If a MPIJob is created with suspend set to true, no Pods are created by
-                      the MPIJob controller. If a MPIJob is suspended after creation (i.e. the
-                      flag goes from false to true), the MPIJob controller will delete all
-                      active Pods and PodGroups associated with this MPIJob. Also, it will suspend the
+                      suspend specifies whether the GroupJob controller should create Pods or not.
+                      If a GroupJob is created with suspend set to true, no Pods are created by
+                      the GroupJob controller. If a GroupJob is suspended after creation (i.e. the
+                      flag goes from false to true), the GroupJob controller will delete all
+                      active Pods and PodGroups associated with this GroupJob. Also, it will suspend the
                       Launcher Job. Users must design their workload to gracefully handle this.
-                      Suspending a Job will reset the StartTime field of the MPIJob.
+                      Suspending a Job will reset the StartTime field of the GroupJob.
 
                       Defaults to false.
                     type: boolean
@@ -8418,240 +8395,3 @@ spec:
     storage: true
     subresources:
       status: {}
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-  name: group-operator
-  namespace: group-operator-system
----
-aggregationRule:
-  clusterRoleSelectors:
-  - matchLabels:
-      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-mpijobs-admin: "true"
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
-  name: kubeflow-mpijobs-admin
-rules: []
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
-    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-mpijobs-admin: "true"
-  name: kubeflow-mpijobs-edit
-rules:
-- apiGroups:
-  - kubeflow.org
-  resources:
-  - mpijobs
-  - mpijobs/status
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - delete
-  - deletecollection
-  - patch
-  - update
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
-  name: kubeflow-mpijobs-view
-rules:
-- apiGroups:
-  - kubeflow.org
-  resources:
-  - mpijobs
-  - mpijobs/status
-  verbs:
-  - get
-  - list
-  - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-  name: group-operator
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  - secrets
-  - services
-  verbs:
-  - create
-  - list
-  - watch
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  verbs:
-  - create
-  - get
-  - list
-  - watch
-  - delete
-  - update
-  - patch
-- apiGroups:
-  - ""
-  resources:
-  - pods/exec
-  verbs:
-  - create
-- apiGroups:
-  - ""
-  resources:
-  - endpoints
-  verbs:
-  - create
-  - get
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - patch
-- apiGroups:
-  - batch
-  resources:
-  - jobs
-  verbs:
-  - create
-  - list
-  - update
-  - watch
-- apiGroups:
-  - apiextensions.k8s.io
-  resources:
-  - customresourcedefinitions
-  verbs:
-  - create
-  - get
-- apiGroups:
-  - kubeflow.org
-  resources:
-  - mpijobs
-  - mpijobs/finalizers
-  - mpijobs/status
-  verbs:
-  - '*'
-- apiGroups:
-  - coordination.k8s.io
-  resources:
-  - leases
-  verbs:
-  - '*'
-- apiGroups:
-  - scheduling.incubator.k8s.io
-  - scheduling.sigs.dev
-  - scheduling.volcano.sh
-  resources:
-  - queues
-  - podgroups
-  verbs:
-  - '*'
-- apiGroups:
-  - scheduling.x-k8s.io
-  resources:
-  - podgroups
-  verbs:
-  - '*'
-- apiGroups:
-  - scheduling.k8s.io
-  resources:
-  - priorityclasses
-  verbs:
-  - get
-  - list
-  - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-  name: group-operator
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: group-operator
-subjects:
-- kind: ServiceAccount
-  name: group-operator
-  namespace: group-operator-system
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: group-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: group-operator
-    kustomize.component: group-operator
-  name: group-operator
-  namespace: group-operator-system
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: group-operator
-      app.kubernetes.io/component: mpijob
-      app.kubernetes.io/name: group-operator
-      kustomize.component: group-operator
-  template:
-    metadata:
-      annotations:
-        sidecar.istio.io/inject: "false"
-      labels:
-        app: group-operator
-        app.kubernetes.io/component: mpijob
-        app.kubernetes.io/name: group-operator
-        kustomize.component: group-operator
-    spec:
-      containers:
-      - args:
-        - -alsologtostderr
-        - --lock-namespace=group-operator-system
-        image: coreweave/group-operator:latest
-        name: group-operator
-      serviceAccountName: group-operator

@@ -35,8 +35,8 @@ import (
 	volcanoinformers "volcano.sh/apis/pkg/client/informers/externalversions"
 	volcanopodgroupinformer "volcano.sh/apis/pkg/client/informers/externalversions/scheduling/v1beta1"
 
-	"github.com/kubeflow/mpi-operator/cmd/mpi-operator/app/options"
-	kubeflow "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
+	"github.com/coreweave/group-operator/cmd/mpi-operator/app/options"
+	kubeflow "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
 )
 
 type PodGroupControl interface {

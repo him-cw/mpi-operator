@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.4
-  name: mpijobs.kubeflow.org
+  name: groupjobs.cw.xyz
 spec:
-  group: kubeflow.org
+  group: cw.xyz
   names:
-    kind: MPIJob
-    listKind: MPIJobList
-    plural: mpijobs
-    singular: mpijob
+    kind: GroupJob
+    listKind: GroupJobList
+    plural: groupjobs
+    singular: groupjob
   scope: Namespaced
   versions:
   - name: v2beta1
@@ -8152,12 +8152,12 @@ spec:
                     type: string
                   managedBy:
                     description: |-
-                      ManagedBy is used to indicate the controller or entity that manages a MPIJob.
-                      The value must be either empty, 'kubeflow.org/mpi-operator' or
+                      ManagedBy is used to indicate the controller or entity that manages a GroupJob.
+                      The value must be either empty, 'cw.xyz/group-operator' or
                       'kueue.x-k8s.io/multikueue'.
-                      The mpi-operator reconciles a MPIJob which doesn't have this
+                      The group-operator reconciles a GroupJob which doesn't have this
                       field at all or the field value is the reserved string
-                      'kubeflow.org/mpi-operator', but delegates reconciling the MPIJob
+                      'cw.xyz/group-operator', but delegates reconciling the GroupJob
                       with 'kueue.x-k8s.io/multikueue' to the Kueue.
                       The field is immutable.
                     type: string
@@ -8215,13 +8215,13 @@ spec:
                   suspend:
                     default: false
                     description: |-
-                      suspend specifies whether the MPIJob controller should create Pods or not.
-                      If a MPIJob is created with suspend set to true, no Pods are created by
-                      the MPIJob controller. If a MPIJob is suspended after creation (i.e. the
-                      flag goes from false to true), the MPIJob controller will delete all
-                      active Pods and PodGroups associated with this MPIJob. Also, it will suspend the
+                      suspend specifies whether the GroupJob controller should create Pods or not.
+                      If a GroupJob is created with suspend set to true, no Pods are created by
+                      the GroupJob controller. If a GroupJob is suspended after creation (i.e. the
+                      flag goes from false to true), the GroupJob controller will delete all
+                      active Pods and PodGroups associated with this GroupJob. Also, it will suspend the
                       Launcher Job. Users must design their workload to gracefully handle this.
-                      Suspending a Job will reset the StartTime field of the MPIJob.
+                      Suspending a Job will reset the StartTime field of the GroupJob.
 
                       Defaults to false.
                     type: boolean

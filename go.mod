@@ -1,4 +1,4 @@
-module github.com/kubeflow/mpi-operator
+module github.com/coreweave/group-operator
 
 go 1.24
 

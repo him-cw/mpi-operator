@@ -44,10 +44,10 @@ import (
 	volcanov1beta1 "volcano.sh/apis/pkg/apis/scheduling/v1beta1"
 	volcanofake "volcano.sh/apis/pkg/client/clientset/versioned/fake"
 
-	kubeflow "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
-	"github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/fake"
-	"github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/scheme"
-	informers "github.com/kubeflow/mpi-operator/pkg/client/informers/externalversions"
+	kubeflow "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
+	"github.com/coreweave/group-operator/pkg/client/clientset/versioned/fake"
+	"github.com/coreweave/group-operator/pkg/client/clientset/versioned/scheme"
+	informers "github.com/coreweave/group-operator/pkg/client/informers/externalversions"
 )
 
 var (

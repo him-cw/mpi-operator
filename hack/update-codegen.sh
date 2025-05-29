@@ -20,7 +20,7 @@ set -o pipefail
 
 CURRENT_DIR=$(dirname "${BASH_SOURCE[0]}")
 MPI_OPERATOR_ROOT=$(realpath "${CURRENT_DIR}/..")
-MPI_OPERATOR_PKG="github.com/kubeflow/mpi-operator"
+MPI_OPERATOR_PKG="github.com/coreweave/group-operator"
 CODEGEN_PKG=$(go list -m -mod=readonly -f "{{.Dir}}" k8s.io/code-generator)
 
 cd "${CURRENT_DIR}/.."

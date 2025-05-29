@@ -19,8 +19,8 @@ package v2beta1
 import (
 	"net/http"
 
-	v2beta1 "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
-	"github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/scheme"
+	v2beta1 "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
+	"github.com/coreweave/group-operator/pkg/client/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
 )
 

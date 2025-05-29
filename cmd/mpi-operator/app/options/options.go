@@ -18,7 +18,7 @@ import (
 	"flag"
 	"os"
 
-	"github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
+	"github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
 )
 
 const (

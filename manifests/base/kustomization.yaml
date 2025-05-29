@@ -4,17 +4,17 @@ namespace: kubeflow
 resources:
 - cluster-role-binding.yaml
 - cluster-role.yaml
-- kubeflow.org_mpijobs.yaml
+- coreweave.com_groupjobs.yaml
 - deployment.yaml
 - service-account.yaml
 images:
-- name: mpioperator/mpi-operator
-  newName: mpioperator/mpi-operator
+- name: coreweave/group-operator
+  newName: coreweave/group-operator
   newTag: latest
 labels:
 - includeSelectors: true
   pairs:
-    app: mpi-operator
-    app.kubernetes.io/component: mpijob
-    app.kubernetes.io/name: mpi-operator
-    kustomize.component: mpi-operator
+    app: group-operator
+    app.kubernetes.io/component: groupjob
+    app.kubernetes.io/name: group-operator
+    kustomize.component: group-operator

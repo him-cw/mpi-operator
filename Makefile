@@ -13,7 +13,7 @@
 # limitations under the License.
 
 BIN_DIR=_output/cmd/bin
-REPO_PATH="github.com/kubeflow/mpi-operator"
+REPO_PATH="github.com/coreweave/group-operator"
 GitSHA=$(shell git rev-parse HEAD)
 Date=$(shell date "+%Y-%m-%d %H:%M:%S")
 RELEASE_VERSION?=v0.6.0
@@ -27,8 +27,8 @@ LD_FLAGS_V2=" \
     -X '${REPO_PATH}/pkg/version.GitSHA=${GitSHA}' \
     -X '${REPO_PATH}/pkg/version.Built=${Date}'   \
     -X '${REPO_PATH}/pkg/version.Version=${RELEASE_VERSION}'"
-REGISTRY?=docker.io/mpioperator
-IMAGE_NAME?=${REGISTRY}/mpi-operator
+REGISTRY?=docker.io/coreweave
+IMAGE_NAME?=${REGISTRY}/group-operator
 KUBEBUILDER_ASSETS_PATH := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))bin/kubebuilder/bin
 KIND_VERSION=v0.18.0
 HELM_VERSION=v3.11.2
@@ -50,7 +50,7 @@ all: ${BIN_DIR} fmt vet tidy lint test mpi-operator.v2
 
 .PHONY: mpi-operator.v2
 mpi-operator.v2:
-	go build -ldflags ${LD_FLAGS_V2} -o ${BIN_DIR}/mpi-operator.v2 ./cmd/mpi-operator/
+	go build -ldflags ${LD_FLAGS_V2} -o ${BIN_DIR}/group-operator.v2 ./cmd/group-operator/
 
 ${BIN_DIR}:
 	mkdir -p ${BIN_DIR}
@@ -90,7 +90,7 @@ generate:
 
 .PHONY: verify-generate
 verify-generate: generate
-       git --no-pager diff --exit-code manifests/base deploy pkg/apis pkg/client
+	git --no-pager diff --exit-code manifests/base deploy pkg/apis pkg/client
 
 .PHONY: clean
 clean:
@@ -112,13 +112,13 @@ test_images_openmpi:
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(PLATFORMS) -t ${REGISTRY}/openmpi-builder:${RELEASE_VERSION} build/base -f build/base/openmpi-builder.Dockerfile
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(PLATFORMS) --build-arg BASE_LABEL=${RELEASE_VERSION} -t ${REGISTRY}/mpi-pi:${RELEASE_VERSION}-openmpi examples/v2beta1/pi
 
-.PTHONY: test_images_intel
+.PHONY: test_images_intel
 test_images_intel:
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(INTEL_PLATFORMS) --build-arg BASE_LABEL=${RELEASE_VERSION} -t ${REGISTRY}/intel:${RELEASE_VERSION} build/base -f build/base/intel.Dockerfile
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(INTEL_PLATFORMS) -t ${REGISTRY}/intel-builder:${RELEASE_VERSION} build/base -f build/base/intel-builder.Dockerfile
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(INTEL_PLATFORMS) --build-arg BASE_LABEL=${RELEASE_VERSION} -t ${REGISTRY}/mpi-pi:${RELEASE_VERSION}-intel examples/v2beta1/pi -f examples/v2beta1/pi/intel.Dockerfile
 
-.PHOTNY: test_images_mpich
+.PHONY: test_images_mpich
 test_images_mpich:
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(MPICH_PLATFORMS) --build-arg BASE_LABEL=${RELEASE_VERSION} -t ${REGISTRY}/mpich:${RELEASE_VERSION} build/base -f build/base/mpich.Dockerfile
 	${IMG_BUILDER} build $(BUILD_ARGS) --platform $(MPICH_PLATFORMS) -t ${REGISTRY}/mpich-builder:${RELEASE_VERSION} build/base -f build/base/mpich-builder.Dockerfile
@@ -132,7 +132,7 @@ tidy:
 lint: bin/golangci-lint ## Run golangci-lint linter
 	$(GOLANGCI_LINT) run
 
-# Generate deploy/v2beta1/mpi-operator.yaml
+# Generate deploy/v2beta1/group-operator.yaml
 manifest: kustomize crd
 	hack/generate-manifest.sh $(KUSTOMIZE)
 

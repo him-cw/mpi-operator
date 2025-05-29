@@ -2,8 +2,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
-    app: mpi-operator
-  name: mpi-operator
+    app: group-operator
+  name: group-operator
 rules:
 - apiGroups:
   - ""
@@ -69,9 +69,9 @@ rules:
 - apiGroups:
   - kubeflow.org
   resources:
-  - mpijobs
-  - mpijobs/finalizers
-  - mpijobs/status
+  - groupjobs
+  - groupjobs/finalizers
+  - groupjobs/status
   verbs:
   - "*"
 - apiGroups:
@@ -109,13 +109,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: kubeflow-mpijobs-admin
+  name: kubeflow-groupjobs-admin
   labels:
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
 aggregationRule:
   clusterRoleSelectors:
   - matchLabels:
-      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-mpijobs-admin: "true"
+      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-groupjobs-admin: "true"
 rules: []
 
 ---
@@ -123,16 +123,16 @@ rules: []
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: kubeflow-mpijobs-edit
+  name: kubeflow-groupjobs-edit
   labels:
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
-    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-mpijobs-admin: "true"
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-groupjobs-admin: "true"
 rules:
 - apiGroups:
   - kubeflow.org
   resources:
-  - mpijobs
-  - mpijobs/status
+  - groupjobs
+  - groupjobs/status
   verbs:
   - get
   - list
@@ -148,15 +148,15 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: kubeflow-mpijobs-view
+  name: kubeflow-groupjobs-view
   labels:
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
 rules:
 - apiGroups:
   - kubeflow.org
   resources:
-  - mpijobs
-  - mpijobs/status
+  - groupjobs
+  - groupjobs/status
   verbs:
   - get
   - list

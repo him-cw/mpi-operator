@@ -32,7 +32,7 @@ import (
 	schedclientset "sigs.k8s.io/scheduler-plugins/pkg/generated/clientset/versioned"
 	volcanoclient "volcano.sh/apis/pkg/client/clientset/versioned"
 
-	clientset "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned"
+	clientset "github.com/coreweave/group-operator/pkg/client/clientset/versioned"
 )
 
 const (

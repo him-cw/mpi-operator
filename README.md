@@ -1,7 +1,7 @@
 # Group Operator
 
-[![CI Status](https://github.com/cwxyz/group-operator/actions/workflows/ci.yml/badge.svg)](https://github.com/cwxyz/group-operator/actions/workflows/ci.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/cwxyz/group-operator)](https://hub.docker.com/r/cwxyz/group-operator)
+[![CI Status](https://github.com/coreweave/group-operator/actions/workflows/ci.yml/badge.svg)](https://github.com/coreweave/group-operator/actions/workflows/ci.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/coreweave/group-operator)](https://hub.docker.com/r/coreweave/group-operator)
 
 
 The Group Operator makes it easy to run allreduce-style distributed training on Kubernetes. Please check out [this blog post](https://medium.com/kubeflow/introduction-to-kubeflow-mpi-operator-and-industry-adoption-296d5f2e6edc) for an introduction to Group Operator and its industry adoption.
@@ -13,13 +13,13 @@ You can deploy the operator with default settings by running the following comma
 - Latest Development Version
 
 ```shell
-kubectl apply --server-side -f https://raw.githubusercontent.com/cwxyz/group-operator/main/deploy/v2beta1/group-operator.yaml
+kubectl apply --server-side -f https://raw.githubusercontent.com/coreweave/group-operator/main/deploy/v2beta1/group-operator.yaml
 ```
 
 - Release Version
 
 ```shell
-kubectl apply --server-side -f https://raw.githubusercontent.com/cwxyz/group-operator/v0.6.0-cw.0/deploy/v2beta1/group-operator.yaml
+kubectl apply --server-side -f https://raw.githubusercontent.com/coreweave/group-operator/v0.6.0-cw.0/deploy/v2beta1/group-operator.yaml
 ```
 
 
@@ -41,7 +41,7 @@ mpijobs.kubeflow.org                       4d
 If it is not included, you can add it as follows using [kustomize](https://github.com/kubernetes-sigs/kustomize):
 
 ```bash
-git clone https://github.com/kubeflow/mpi-operator
+git clone https://github.com/coreweave/group-operator
 cd mpi-operator
 kustomize build manifests/overlays/kubeflow | kubectl apply -f -
 ```
@@ -241,7 +241,7 @@ For example `kube_pod_info * on(pod,namespace) group_left label_replace(group_op
 We push Docker images of [mpioperator on Dockerhub](https://hub.docker.com/u/mpioperator) for every release.
 You can use the following Dockerfile to build the image yourself:
 
-- [mpi-operator](https://github.com/kubeflow/mpi-operator/blob/master/Dockerfile)
+- [mpi-operator](https://github.com/coreweave/group-operator/blob/master/Dockerfile)
 
 Alternative, you can build the image using make:
 
@@ -253,4 +253,4 @@ This will produce an image with the tag `registry.example.com/mpi-operator:dev`.
 
 ## Contributing
 
-Learn more in [CONTRIBUTING](https://github.com/kubeflow/mpi-operator/blob/master/CONTRIBUTING.md).
+Learn more in [CONTRIBUTING](https://github.com/coreweave/group-operator/blob/master/CONTRIBUTING.md).

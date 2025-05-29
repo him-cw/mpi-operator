@@ -39,12 +39,12 @@ import (
 	volcanov1beta1 "volcano.sh/apis/pkg/apis/scheduling/v1beta1"
 	volcanoclient "volcano.sh/apis/pkg/client/clientset/versioned"
 
-	kubeflow "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
-	clientset "github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned"
-	"github.com/kubeflow/mpi-operator/pkg/client/clientset/versioned/scheme"
-	informers "github.com/kubeflow/mpi-operator/pkg/client/informers/externalversions"
-	"github.com/kubeflow/mpi-operator/pkg/controller"
-	"github.com/kubeflow/mpi-operator/test/util"
+	kubeflow "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
+	clientset "github.com/coreweave/group-operator/pkg/client/clientset/versioned"
+	"github.com/coreweave/group-operator/pkg/client/clientset/versioned/scheme"
+	informers "github.com/coreweave/group-operator/pkg/client/informers/externalversions"
+	"github.com/coreweave/group-operator/pkg/controller"
+	"github.com/coreweave/group-operator/test/util"
 )
 
 func TestMPIJobSuccess(t *testing.T) {

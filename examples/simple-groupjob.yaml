@@ -1,0 +1,23 @@
+apiVersion: coreweave.com/v2beta1
+kind: GroupJob
+metadata:
+  name: pi
+spec:
+  slotsPerWorker: 1
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          containers:
+          - name: mpi-launcher
+            image: alpine
+            command: ["echo", "hello"]
+    Worker:
+      replicas: 1
+      template:
+        spec:
+          containers:
+          - name: mpi-worker
+            image: alpine
+            command: ["sleep", "10"]

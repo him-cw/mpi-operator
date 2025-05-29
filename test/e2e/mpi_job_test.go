@@ -34,8 +34,8 @@ import (
 	"k8s.io/utils/ptr"
 	schedv1alpha1 "sigs.k8s.io/scheduler-plugins/apis/scheduling/v1alpha1"
 
-	kubeflow "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
-	"github.com/kubeflow/mpi-operator/test/util"
+	kubeflow "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
+	"github.com/coreweave/group-operator/test/util"
 )
 
 var _ = ginkgo.Describe("MPIJob", func() {

@@ -1,22 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mpi-operator
+  name: group-operator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mpi-operator
+      app: group-operator
   template:
     metadata:
       labels:
-        app: mpi-operator
+        app: group-operator
       annotations:
         sidecar.istio.io/inject: "false"
     spec:
       containers:
       - args:
         - -alsologtostderr
-        image: mpioperator/mpi-operator:latest
-        name: mpi-operator
-      serviceAccountName: mpi-operator
+        image: coreweave/group-operator:latest
+      serviceAccountName: group-operator

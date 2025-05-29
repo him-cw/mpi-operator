@@ -17,9 +17,9 @@
 package applyconfiguration
 
 import (
-	v2beta1 "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
-	internal "github.com/kubeflow/mpi-operator/pkg/client/applyconfiguration/internal"
-	kubeflowv2beta1 "github.com/kubeflow/mpi-operator/pkg/client/applyconfiguration/kubeflow/v2beta1"
+	v2beta1 "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
+	internal "github.com/coreweave/group-operator/pkg/client/applyconfiguration/internal"
+	kubeflowv2beta1 "github.com/coreweave/group-operator/pkg/client/applyconfiguration/kubeflow/v2beta1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	testing "k8s.io/client-go/testing"

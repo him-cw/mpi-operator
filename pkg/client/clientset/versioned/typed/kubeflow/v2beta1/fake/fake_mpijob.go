@@ -21,8 +21,8 @@ import (
 	json "encoding/json"
 	"fmt"
 
-	v2beta1 "github.com/kubeflow/mpi-operator/pkg/apis/kubeflow/v2beta1"
-	kubeflowv2beta1 "github.com/kubeflow/mpi-operator/pkg/client/applyconfiguration/kubeflow/v2beta1"
+	v2beta1 "github.com/coreweave/group-operator/pkg/apis/kubeflow/v2beta1"
+	kubeflowv2beta1 "github.com/coreweave/group-operator/pkg/client/applyconfiguration/kubeflow/v2beta1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
 	types "k8s.io/apimachinery/pkg/types"
