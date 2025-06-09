@@ -19,9 +19,29 @@ This project requires Go and `make`.
 
 After building the image, deploy the operator:
 ```bash
-kubectl apply -f deploy/v2beta1/mpi-operator.yaml
+kubectl apply -f deploy/v2beta1/group-operator.yaml
 ```
+
 Use the example job to verify:
 ```bash
 kubectl apply -f examples/simple-groupjob.yaml
 ```
+## Running Locally with kind
+
+1. Create a Kubernetes cluster using [kind](https://kind.sigs.k8s.io/):
+   ```bash
+   kind create cluster --name group-operator
+   ```
+2. Load the image into the cluster:
+   ```bash
+   kind load docker-image registry.example.com/group-operator:dev --name group-operator
+   ```
+3. Deploy the operator manifest:
+   ```bash
+   kubectl apply -f deploy/v2beta1/group-operator.yaml
+   ```
+4. Apply the example job and inspect the pods:
+   ```bash
+   kubectl apply -f examples/simple-groupjob.yaml
+   kubectl get pods -n group-operator-system
+   ```

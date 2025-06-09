@@ -29,12 +29,12 @@ You can check whether the MPI Job custom resource is installed via:
 kubectl get crd
 ```
 
-The output should include `mpijobs.kubeflow.org` like the following:
+The output should include `groupjobs.coreweave.com` like the following:
 
 ```
 NAME                                       AGE
 ...
-mpijobs.kubeflow.org                       4d
+groupjobs.coreweave.com                       4d
 ...
 ```
 
@@ -42,7 +42,7 @@ If it is not included, you can add it as follows using [kustomize](https://githu
 
 ```bash
 git clone https://github.com/coreweave/group-operator
-cd mpi-operator
+cd group-operator
 kustomize build manifests/overlays/kubeflow | kubectl apply -f -
 ```
 
@@ -77,7 +77,7 @@ kubectl apply -f examples/v2beta1/tensorflow-benchmarks/tensorflow-benchmarks.ya
 Once the `GroupJob` resource is created, you should now be able to see the created pods matching the specified number of GPUs. You can also monitor the job status from the status section. Here is sample output when the job is successfully completed.
 
 ```
-kubectl get -o yaml mpijobs tensorflow-benchmarks
+kubectl get -o yaml groupjobs tensorflow-benchmarks
 ```
 
 ```
@@ -89,7 +89,7 @@ metadata:
   name: tensorflow-benchmarks
   namespace: default
   resourceVersion: "5645868"
-  selfLink: /apis/kubeflow.org/v1alpha2/namespaces/default/mpijobs/tensorflow-benchmarks
+  selfLink: /apis/coreweave.com/v1alpha2/namespaces/default/groupjobs/tensorflow-benchmarks
   uid: 1c5b470f-a297-11e9-964d-88d7f67c6e6d
 spec:
   runPolicy:
@@ -238,18 +238,18 @@ For example `kube_pod_info * on(pod,namespace) group_left label_replace(group_op
 
 ## Docker Images
 
-We push Docker images of [mpioperator on Dockerhub](https://hub.docker.com/u/mpioperator) for every release.
+We push Docker images of [coreweave/group-operator Docker image](https://hub.docker.com/r/coreweave/group-operator) for every release.
 You can use the following Dockerfile to build the image yourself:
 
-- [mpi-operator](https://github.com/coreweave/group-operator/blob/master/Dockerfile)
+- [group-operator](https://github.com/coreweave/group-operator/blob/master/Dockerfile)
 
 Alternative, you can build the image using make:
 
 ```bash
-make RELEASE_VERSION=dev IMAGE_NAME=registry.example.com/mpi-operator images
+make RELEASE_VERSION=dev IMAGE_NAME=registry.example.com/group-operator images
 ```
 
-This will produce an image with the tag `registry.example.com/mpi-operator:dev`.
+This will produce an image with the tag `registry.example.com/group-operator:dev`.
 
 ## Contributing
 

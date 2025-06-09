@@ -1,4 +1,4 @@
-FROM golang:1.24 AS build
+FROM golang:1.23 AS build
 
 # Set group-operator version
 # Defaults to v2
@@ -7,6 +7,7 @@ ARG RELEASE_VERSION
 
 ADD . /go/src/github.com/coreweave/group-operator
 WORKDIR /go/src/github.com/coreweave/group-operator
+ENV CGO_ENABLED=0
 RUN make RELEASE_VERSION=${RELEASE_VERSION} group-operator.$VERSION
 RUN ln -s group-operator.${VERSION} _output/cmd/bin/group-operator
 

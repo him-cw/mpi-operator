@@ -14,6 +14,6 @@ labels:
 - includeSelectors: true
   pairs:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator

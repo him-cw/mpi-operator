@@ -16,7 +16,7 @@ Related issue: [#12](https://github.com/kubeflow/mpi-operator/issues/12).
 ## CI/CD
 
 * Automate the process to publish images to Docker Hub whenever there's new release/commit. Related issue: [#93](https://github.com/kubeflow/mpi-operator/issues/93).
-* Ensure new versions of `deploy/mpi-operator.yaml` are always compatible with [kubeflow/manifests](https://github.com/kubeflow/manifests).
+* Ensure new versions of `deploy/v2beta1/group-operator.yaml` are always compatible with [kubeflow/manifests](https://github.com/kubeflow/manifests).
 * Add end-to-end tests via Kubeflow's testing infrastructure. Related issue: [#9](https://github.com/kubeflow/mpi-operator/issues/9).
 
 ## Bug Fixes

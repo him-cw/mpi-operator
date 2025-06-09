@@ -8,7 +8,7 @@ commonLabels:
   kustomize.component: group-operator
   app: group-operator
   app.kubernetes.io/name: group-operator
-  app.kubernetes.io/component: mpijob
+  app.kubernetes.io/component: groupjob
 images:
 - name: mpioperator/group-operator
   newName: %IMAGE_NAME%

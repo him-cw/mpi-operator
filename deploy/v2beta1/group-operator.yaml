@@ -12,7 +12,7 @@ kind: Namespace
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
   name: group-operator-system
@@ -24,7 +24,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.16.4
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
   name: groupjobs.coreweave.com
@@ -8424,7 +8424,7 @@ kind: ServiceAccount
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
   name: group-operator
@@ -8439,7 +8439,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
@@ -8451,7 +8451,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
@@ -8478,7 +8478,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
     rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
@@ -8499,7 +8499,7 @@ kind: ClusterRole
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
   name: group-operator
@@ -8607,7 +8607,7 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
   name: group-operator
@@ -8625,7 +8625,7 @@ kind: Deployment
 metadata:
   labels:
     app: group-operator
-    app.kubernetes.io/component: mpijob
+    app.kubernetes.io/component: groupjob
     app.kubernetes.io/name: group-operator
     kustomize.component: group-operator
   name: group-operator
@@ -8635,7 +8635,7 @@ spec:
   selector:
     matchLabels:
       app: group-operator
-      app.kubernetes.io/component: mpijob
+      app.kubernetes.io/component: groupjob
       app.kubernetes.io/name: group-operator
       kustomize.component: group-operator
   template:
@@ -8644,7 +8644,7 @@ spec:
         sidecar.istio.io/inject: "false"
       labels:
         app: group-operator
-        app.kubernetes.io/component: mpijob
+        app.kubernetes.io/component: groupjob
         app.kubernetes.io/name: group-operator
         kustomize.component: group-operator
     spec:
