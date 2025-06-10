@@ -8460,6 +8460,7 @@ metadata:
 rules:
 - apiGroups:
   - kubeflow.org
+  - coreweave.com
   resources:
   - groupjobs
   - groupjobs/status
@@ -8486,6 +8487,7 @@ metadata:
 rules:
 - apiGroups:
   - kubeflow.org
+  - coreweave.com
   resources:
   - groupjobs
   - groupjobs/status
@@ -8566,6 +8568,7 @@ rules:
   - get
 - apiGroups:
   - kubeflow.org
+  - coreweave.com
   resources:
   - groupjobs
   - groupjobs/finalizers
