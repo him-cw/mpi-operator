@@ -20,9 +20,11 @@ RELEASE_VERSION?=v0.6.0
 CONTROLLER_VERSION?=v2
 BASE_IMAGE_SSH_PORT?=2222
 IMG_BUILDER=docker
-PLATFORMS ?= linux/amd64,linux/arm64,linux/ppc64le
-INTEL_PLATFORMS ?= linux/amd64
-MPICH_PLATFORMS ?= linux/amd64,linux/arm64
+# Default to the host platform for local builds. This can be overridden by
+# specifying PLATFORMS when invoking make.
+PLATFORMS ?= $(shell go env GOOS)/$(shell go env GOARCH)
+INTEL_PLATFORMS ?= $(PLATFORMS)
+MPICH_PLATFORMS ?= $(PLATFORMS)
 LD_FLAGS_V2=" \
     -X '${REPO_PATH}/pkg/version.GitSHA=${GitSHA}' \
     -X '${REPO_PATH}/pkg/version.Built=${Date}'   \
