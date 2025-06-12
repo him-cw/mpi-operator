@@ -1225,6 +1225,10 @@ func (c *GroupJobController) handleObject(obj interface{}) {
 	if ownerGVK.Group == batchv1.GroupName && ownerGVK.Kind == "Job" {
 		j, err := c.jobLister.Jobs(object.GetNamespace()).Get(ownerRef.Name)
 		if err != nil {
+			if apierrors.IsNotFound(err) {
+				klog.V(4).Infof("owner Job %s for object %s not found, ignoring", ownerRef.Name, object.GetSelfLink())
+				return
+			}
 			runtime.HandleError(fmt.Errorf("obtaining owning k8s Job: %w", err))
 			return
 		}
